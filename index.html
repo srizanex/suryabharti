@@ -9,8 +9,13 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" rel="stylesheet">
+    <!-- Load fonts non-blocking -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" onload="this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" onload="this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" rel="stylesheet"></noscript>
+    <!-- Preload hero image for faster LCP -->
+    <link rel="preload" as="image" href="images/homeimage.png?v=20251228">
 
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -164,7 +169,22 @@
         .lightbox-nav { top: 50%; transform: translateY(-50%); font-size: 28px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
         .lightbox-nav.prev { left: 10px; }
         .lightbox-nav.next { right: 10px; }
-        @media (max-width: 768px) { .lightbox-nav { display: none; } .lightbox-content { padding: 12px; } .lightbox-content img.fit-width { width: calc(100vw - 32px); } }
+
+        /* Touch navigation areas for mobile: large invisible hotspots for swipe/click */
+        .lightbox-nav.touch-area { display: none; position: absolute; top: 0; bottom: 0; width: 40%; height: 100%; background: rgba(255,255,255,0.02); border-radius: 0; padding: 0; align-items: center; justify-content: center; }
+        .lightbox-nav.touch-area.prev { left: 0; }
+        .lightbox-nav.touch-area.next { right: 0; }
+
+        /* Allow overlay to capture touch gestures */
+        .lightbox-overlay { touch-action: none; }
+
+        @media (max-width: 768px) {
+            .lightbox-nav { font-size: 22px; width: 44px; height: 44px; }
+            .lightbox-content { padding: 12px; }
+            .lightbox-content img.fit-width { width: calc(100vw - 32px); }
+            .lightbox-nav.touch-area { display: flex; }
+            .lightbox-content { max-height: 90vh; }
+        }
     </style> 
 </head>
 <body class="bg-bg-light text-slate-800 font-sans antialiased pb-20 md:pb-0 overflow-hidden">
@@ -308,7 +328,7 @@
                     <!-- Soft Inner Glow behind image -->
                     <div class="absolute inset-4 bg-gradient-to-t from-orange-200/50 to-transparent rounded-full blur-2xl -z-10 animate-pulse-slow"></div>
                     
-                    <img id="hero-img" src="images/homeimage.png?v=20251228" alt="Surya Bharti poet and Author" class="object-contain w-full h-full img-zoom drop-shadow-2xl hero-img-mask md:mask-none" loading="lazy" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));">
+                    <img id="hero-img" src="images/homeimage.png?v=20251228" alt="Surya Bharti poet and Author" class="object-contain w-full h-full img-zoom drop-shadow-2xl hero-img-mask md:mask-none" decoding="async" fetchpriority="high" loading="eager" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));">
                     
                     <!-- Floating Quote Card (Mobile Only Enhancement) -->
                     <!-- Moved down to -bottom-10 on mobile to clear the image -->
@@ -365,7 +385,7 @@
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="images/antimraahi.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/antimraahi.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Philosophy</span>
@@ -380,7 +400,7 @@
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="images/kranti.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/kranti.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-red-50 text-red-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Bestseller</span>
@@ -395,7 +415,7 @@
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="images/sitam.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/sitam.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Prose</span>
@@ -410,7 +430,7 @@
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="images/Tara%20Hindustan%20Ka.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/Tara%20Hindustan%20Ka.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Patriotic</span>
@@ -425,7 +445,7 @@
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="images/krishnatva.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/krishnatva.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Mythology</span>
@@ -459,7 +479,7 @@
                     <div class="grid grid-cols-3 gap-4 mt-8 border-t border-gray-100 pt-6 items-center">
                         <div class="text-center md:text-left"><span class="block text-2xl font-serif font-bold text-slate-900">5</span><span class="text-[10px] text-slate-400 uppercase font-bold">Books</span></div>
                         <div class="text-center md:text-left"><span class="block text-2xl font-serif font-bold text-slate-900">1.7k+</span><span class="text-[10px] text-slate-400 uppercase font-bold">Verses</span></div>
-                         <div class="flex justify-center md:justify-start"><img src="https://signature.freefire-name.com/img.php?f=7&t=Surya%20Bharti" alt="Surya Bharti poet and Author" class="h-8 opacity-60"></div>
+                         <div class="flex justify-center md:justify-start"><img src="https://signature.freefire-name.com/img.php?f=7&t=Surya%20Bharti" alt="Surya Bharti poet and Author" class="h-8 opacity-60" loading="lazy" decoding="async"></div>
                     </div>
                 </div>
             </div>
@@ -694,11 +714,7 @@
             });
         });
 
-        // Cache Buster
-        (function(){
-            const img = document.getElementById('hero-img');
-            if(img) img.src = img.src.split('?')[0] + '?ts=' + Date.now();
-        })();
+        // Cache Buster removed to allow browser caching and improve load times.
 
         // Dynamic gallery and reels
         (function(){
@@ -730,14 +746,70 @@
                     });
                 }
 
-                for(let i=1;i<=maxImages;i++){
-                    const candidates = [
-                        `images/images${i}.jpg`, `images/image${i}.jpg`,
-                        `images/images${i}.jpeg`, `images/image${i}.jpeg`,
-                        `images/images${i}.png`, `images/image${i}.png`
-                    ];
-                    probeCandidates(candidates, (src)=>{ appendImage(src); }, ()=>{});
+                // State for gallery loading
+                let galleryLoadState = 'idle'; // 'idle' | 'loading' | 'loaded' | 'background-loading'
+
+                function loadGalleryImages(){
+                    if(galleryLoadState === 'loading' || galleryLoadState === 'loaded') return;
+                    galleryLoadState = 'loading';
+                    for(let i=1;i<=maxImages;i++){
+                        const candidates = [
+                            `images/images${i}.webp`, `images/image${i}.webp`,
+                            `images/images${i}.jpg`, `images/image${i}.jpg`,
+                            `images/images${i}.jpeg`, `images/image${i}.jpeg`,
+                            `images/images${i}.png`, `images/image${i}.png`
+                        ];
+                        probeCandidates(candidates, (src)=>{ appendImage(src); }, ()=>{});
+                    }
+                    galleryLoadState = 'loaded';
                 }
+
+                // Progressive background loader: low priority, staggered using requestIdleCallback or timeout
+                function progressiveLoadGallery(){
+                    if(galleryLoadState !== 'idle') return; // don't start if user already triggered load
+                    galleryLoadState = 'background-loading';
+                    let i = 1;
+                    const step = () => {
+                        if(galleryLoadState !== 'background-loading') return; // cancelled if user scrolled
+                        if(i>maxImages){ galleryLoadState = 'loaded'; return; }
+                        const candidates = [
+                            `images/images${i}.webp`, `images/image${i}.webp`,
+                            `images/images${i}.jpg`, `images/image${i}.jpg`,
+                            `images/images${i}.jpeg`, `images/image${i}.jpeg`,
+                            `images/images${i}.png`, `images/image${i}.png`
+                        ];
+                        probeCandidates(candidates, (src)=>{ appendImage(src); }, ()=>{});
+                        i++;
+                        if(window.requestIdleCallback){
+                            requestIdleCallback(step, {timeout: 500});
+                        } else {
+                            setTimeout(step, 350);
+                        }
+                    };
+                    // start little later after load to avoid impacting LCP
+                    setTimeout(() => { if(galleryLoadState === 'background-loading') step(); }, 1000);
+                }
+
+                // Only load gallery images when user scrolls to the gallery (saves initial requests)
+                const galleryObserver = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(e => {
+                        if(e.isIntersecting){
+                            // User reached gallery: cancel background loading and do immediate load
+                            galleryLoadState = 'loading';
+                            loadGalleryImages();
+                            obs.unobserve(gallery);
+                        }
+                    });
+                }, { root: null, threshold: 0.05 });
+                galleryObserver.observe(gallery);
+
+                // Also initiate a slow background load after the page is fully loaded (low priority)
+                window.addEventListener('load', () => {
+                    // Start only if gallery not visible yet
+                    setTimeout(() => {
+                        if(galleryLoadState === 'idle') progressiveLoadGallery();
+                    }, 1200);
+                });
             }
 
             function appendVideoWrapper(video){
@@ -761,20 +833,26 @@
             }
 
             if(videosGrid){
-                const maxReels = 8;
-                for(let i=1;i<=maxReels;i++){
-                    let appended = false;
-                    const candidates = [`videos/short${i}.mp4`, `videos/Short${i}.mp4`, `videos/short${i}.webm`];
-                    for(const src of candidates){
-                        if(appended) break;
-                        const video = document.createElement('video');
-                        video.setAttribute('playsinline',''); video.loop = true; video.muted = true; video.preload = 'metadata';
-                        const source = document.createElement('source'); source.src = src; source.type = 'video/mp4';
-                        video.appendChild(source);
-                        video.onloadedmetadata = () => { if(!appended){ appended = true; appendVideoWrapper(video); } };
-                        try{ video.load(); }catch(e){}
+                function loadVideos(){
+                    const maxReels = 8;
+                    for(let i=1;i<=maxReels;i++){
+                        let appended = false;
+                        const candidates = [`videos/short${i}.mp4`, `videos/Short${i}.mp4`, `videos/short${i}.webm`];
+                        for(const src of candidates){
+                            if(appended) break;
+                            const video = document.createElement('video');
+                            video.setAttribute('playsinline',''); video.loop = true; video.muted = true; video.preload = 'metadata';
+                            const source = document.createElement('source'); source.src = src; source.type = 'video/mp4';
+                            video.appendChild(source);
+                            video.onloadedmetadata = () => { if(!appended){ appended = true; appendVideoWrapper(video); } };
+                            try{ video.load(); }catch(e){}
+                        }
                     }
                 }
+                const videosObserver = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(e => { if(e.isIntersecting){ loadVideos(); obs.unobserve(videosGrid); } });
+                }, { root: null, threshold: 0.05 });
+                videosObserver.observe(videosGrid);
             }
 
             // Lightbox (fullscreen viewer) for gallery images
@@ -791,6 +869,42 @@
                 const lbClose = lightboxOverlay.querySelector('.lightbox-close');
                 const lbPrev = lightboxOverlay.querySelector('.lightbox-nav.prev');
                 const lbNext = lightboxOverlay.querySelector('.lightbox-nav.next');
+
+                // Create large touch areas for mobile navigation (prev/next)
+                const prevTouchArea = document.createElement('button'); prevTouchArea.className = 'lightbox-nav prev touch-area'; prevTouchArea.setAttribute('aria-hidden','true');
+                const nextTouchArea = document.createElement('button'); nextTouchArea.className = 'lightbox-nav next touch-area'; nextTouchArea.setAttribute('aria-hidden','true');
+                lightboxOverlay.querySelector('.lightbox-content').appendChild(prevTouchArea);
+                lightboxOverlay.querySelector('.lightbox-content').appendChild(nextTouchArea);
+
+                // Touch/swipe variables
+                let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+
+                function onTouchStart(e){
+                    if(e.touches && e.touches.length === 1){
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                        touchStartTime = Date.now();
+                    }
+                }
+
+                function onTouchEnd(e){
+                    if(!e.changedTouches || e.changedTouches.length !== 1) return;
+                    const dx = e.changedTouches[0].clientX - touchStartX;
+                    const dy = e.changedTouches[0].clientY - touchStartY;
+                    const dt = Date.now() - touchStartTime;
+                    // Horizontal swipe
+                    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
+                        if(dx > 0) navigate(-1); else navigate(1);
+                    }
+                }
+
+                // Click handlers for touch areas
+                prevTouchArea.addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
+                nextTouchArea.addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+
+                // Attach touch handlers
+                lightboxOverlay.addEventListener('touchstart', onTouchStart, { passive: true });
+                lightboxOverlay.addEventListener('touchend', onTouchEnd, { passive: true });
 
                 function fitByDimension(){
                     lbImg.classList.remove('fit-width','fit-height');
