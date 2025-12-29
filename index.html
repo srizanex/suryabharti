@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -25,6 +25,7 @@
                     colors: {
                         primary: '#ea580c', 
                         secondary: '#0f172a',
+                        gold: '#d4af37',
                         bg: { light: '#ffffff', off: '#f8fafc', paper: '#fffdf5' }
                     },
                     fontFamily: {
@@ -32,6 +33,21 @@
                         sans: ['"DM Sans"', 'sans-serif'],
                         hindiTitle: ['"Rozha One"', 'serif'],
                         hindiBody: ['"Gotu"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'glow': '0 0 20px rgba(234, 88, 12, 0.3)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)'
+                    },
+                    animation: {
+                        'float-slow': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -58,10 +74,10 @@
             background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E');
         }
 
-        /* --- UNIFIED SCROLL LOGIC (Mobile & Desktop) --- */
+        /* --- UNIFIED SCROLL LOGIC --- */
         .horizontal-section {
             width: 100%;
-            height: 100vh; /* Keeps it pinned to viewport height */
+            height: 100vh;
             display: flex;
             align-items: center;
             overflow: hidden;
@@ -70,195 +86,338 @@
 
         .horizontal-scroll-wrapper {
             display: flex;
-            gap: 2rem; /* Consistent gap */
-            padding: 0 5vw; /* Side padding */
-            width: max-content; /* Force width to content */
+            gap: 2rem;
+            padding: 0 5vw;
+            width: max-content;
             height: 100%;
             align-items: center;
             will-change: transform;
         }
 
-        /* Mobile specific adjustments inside the wrapper */
         @media (max-width: 768px) {
             .horizontal-scroll-wrapper {
-                gap: 1.5rem;
-                padding: 0 1.5rem;
+                gap: 1rem;
+                padding: 0 1rem;
+                align-items: center;
             }
-        }
-
-        .splash-text { animation: textReveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards; }
-        @keyframes textReveal {
-            0% { clip-path: inset(0 100% 0 0); opacity: 0; }
-            100% { clip-path: inset(0 0 0 0); opacity: 1; }
+            .horizontal-section {
+                height: 85vh; 
+            }
         }
 
         .img-zoom { transition: transform 0.7s ease; }
         .group:hover .img-zoom { transform: scale(1.05); }
-        .mobile-nav-item.active { color: #ea580c; }
+        .mobile-nav-item.active { color: #ea580c; position: relative; }
+        .mobile-nav-item.active::after {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 40%; height: 3px; background: #ea580c; border-radius: 0 0 4px 4px;
+        }
         .text-balanced { text-wrap: balance; }
+
+        /* Shloka Text Styling */
+        .shloka-text {
+            font-family: 'Rozha One', serif;
+            opacity: 0;
+            transform: scale(0.95);
+            text-shadow: 0 0 30px rgba(234, 88, 12, 0.4);
+        }
+        
+        /* Floating Animation for Logo */
+        @keyframes floatPen {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(-2deg); }
+        }
+        .animate-float-pen { animation: floatPen 4s ease-in-out infinite; }
+
+        /* Writing Effect on Hover */
+        .group:hover .kalam-wrapper {
+            transform: rotate(-15deg) translateX(-2px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Hero Image Gradient Mask for Mobile */
+        .hero-img-mask {
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+
+        /* Fade Up Animation Class */
+        .fade-up-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
-<body class="bg-bg-light text-slate-800 font-sans antialiased pb-20 md:pb-0">
+<body class="bg-bg-light text-slate-800 font-sans antialiased pb-20 md:pb-0 overflow-hidden">
 
     <div class="noise-overlay"></div>
 
+    <!-- UPDATED SPLASH SCREEN: Single Powerful Shloka -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-secondary flex flex-col items-center justify-center px-4 text-center transition-opacity duration-1000 ease-in-out">
-        <div class="relative z-10 max-w-2xl">
-            <h1 class="font-serif text-6xl md:text-9xl font-bold text-primary splash-text" style="animation-delay: 0.5s; opacity: 0;">Hey Ram</h1>
+        <div class="relative z-10 w-full">
+            <div class="w-24 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent mx-auto mb-8"></div>
+            <h1 class="shloka-text text-4xl md:text-7xl text-orange-50 leading-tight">
+                ॐ तमसो मा ज्योतिर्गमय
+            </h1>
+            <p class="shloka-sub text-slate-400 text-sm md:text-base mt-4 font-sans tracking-[0.2em] uppercase opacity-0 transform translate-y-4">
+                From Darkness to Light
+            </p>
+            <div class="w-24 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent mx-auto mt-8"></div>
         </div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-orange-500/10 blur-[100px] rounded-full pointer-events-none"></div>
     </div>
 
-    <nav class="hidden md:block fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 top-0">
+    <!-- HEADER: Desktop -->
+    <nav class="hidden md:block fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-white/20 top-0 transition-all duration-300" id="desktop-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <a href="#home" class="flex-shrink-0 flex items-center gap-2 font-serif font-bold text-xl text-slate-900">
-                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-lg">S</div> Surya Bharti
+                <a href="#home" class="flex-shrink-0 flex items-center gap-3 font-serif font-bold text-xl text-slate-900 group">
+                    <div class="w-14 h-14 relative flex items-center justify-center kalam-wrapper origin-bottom-left transition-transform">
+                        <img src="https://e7.pngegg.com/pngimages/812/49/png-clipart-quill-feather-pen-line-art-feather-ink-white-thumbnail.png" 
+                             alt="Surya Bharti poet and Author" 
+                             class="w-full h-full object-contain animate-float-pen mix-blend-multiply filter contrast-125"
+                        >
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="leading-none text-xl">Surya Bharti</span>
+                        <span class="text-[10px] text-primary tracking-widest uppercase font-sans font-bold">Writer</span>
+                    </div>
                 </a>
                 <div class="flex items-center space-x-8">
-                    <a href="#home" class="text-sm font-medium text-slate-600 hover:text-primary">Home</a>
-                    <a href="#books-trigger" class="text-sm font-medium text-slate-600 hover:text-primary">Books</a>
-                    <a href="#about" class="text-sm font-medium text-slate-600 hover:text-primary">About</a>
-                    <a href="#gallery" class="text-sm font-medium text-slate-600 hover:text-primary">Gallery</a>
-                    <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" class="px-5 py-2.5 bg-secondary text-white text-sm font-medium rounded-full hover:bg-primary transition-all">Google Play</a>
+                    <a href="#home" class="nav-link text-sm font-medium text-slate-600 hover:text-primary transition-colors relative group">
+                        Home <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#books-trigger" class="nav-link text-sm font-medium text-slate-600 hover:text-primary transition-colors relative group">
+                        Books <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#about" class="nav-link text-sm font-medium text-slate-600 hover:text-primary transition-colors relative group">
+                        About <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#gallery" class="nav-link text-sm font-medium text-slate-600 hover:text-primary transition-colors relative group">
+                        Gallery <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-primary hover:shadow-lg transition-all inline-flex items-center gap-2">
+                        <span>Books on Google</span>
+                    </a>    
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="md:hidden fixed top-0 w-full z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 h-14 flex items-center justify-center shadow-sm">
-         <span class="font-serif font-bold text-lg text-slate-900">Surya Bharti</span>
+    <!-- HEADER: Mobile (Redesigned for Elegance) -->
+    <div class="md:hidden fixed top-0 w-full z-40 bg-white/80 backdrop-blur-xl border-b border-white/50 h-[65px] flex items-center justify-between px-5 shadow-glass transition-transform duration-300" id="mobile-header">
+         <div class="flex items-center gap-3">
+            <!-- Mobile Logo -->
+            <div class="w-9 h-9 overflow-visible flex items-center justify-center relative">
+                 <div class="absolute inset-0 bg-orange-100 rounded-full blur-md opacity-50"></div>
+                 <img src="https://e7.pngegg.com/pngimages/812/49/png-clipart-quill-feather-pen-line-art-feather-ink-white-thumbnail.png" 
+                      alt="Surya Bharti poet and Author" 
+                      class="w-full h-full object-contain mix-blend-multiply relative z-10 transform -rotate-12"
+                 >
+            </div>
+            <div class="flex flex-col">
+                <span class="font-serif font-bold text-lg text-slate-900 leading-none">Surya Bharti</span>
+                <span class="text-[9px] tracking-[0.2em] text-slate-500 uppercase font-medium">Author</span>
+            </div>
+         </div>
+         
+         <!-- Minimal Action Button -->
+         <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 shadow-sm hover:bg-slate-100 active:scale-95 transition-all">
+             <i data-lucide="book" class="w-4 h-4"></i>
+         </a>
     </div>
 
-    <div class="md:hidden fixed bottom-0 w-full z-[60] bg-white border-t border-gray-200 h-16 flex items-center justify-around px-2 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] pb-safe">
-        <a href="#home" class="mobile-nav-item flex flex-col items-center justify-center p-2 min-w-[60px] text-slate-400 active"><i data-lucide="home" class="w-5 h-5 mb-1"></i><span class="text-[10px] font-medium">Home</span></a>
-        <a href="#books-trigger" class="mobile-nav-item flex flex-col items-center justify-center p-2 min-w-[60px] text-slate-400"><i data-lucide="book-open" class="w-5 h-5 mb-1"></i><span class="text-[10px] font-medium">Books</span></a>
-        <a href="#about" class="mobile-nav-item flex flex-col items-center justify-center p-2 min-w-[60px] text-slate-400"><i data-lucide="user" class="w-5 h-5 mb-1"></i><span class="text-[10px] font-medium">About</span></a>
-        <a href="#gallery" class="mobile-nav-item flex flex-col items-center justify-center p-2 min-w-[60px] text-slate-400"><i data-lucide="image" class="w-5 h-5 mb-1"></i><span class="text-[10px] font-medium">Gallery</span></a>
-        <a href="#videos" class="mobile-nav-item flex flex-col items-center justify-center p-2 min-w-[60px] text-slate-400"><i data-lucide="play-circle" class="w-5 h-5 mb-1"></i><span class="text-[10px] font-medium">Watch</span></a>
+    <!-- BOTTOM NAV: Mobile (Optimized) -->
+    <div class="md:hidden fixed bottom-0 w-full z-[60] bg-white/95 backdrop-blur-lg border-t border-slate-100 h-[70px] flex items-center justify-around px-2 pb-safe shadow-[0_-5px_30px_rgba(0,0,0,0.03)]">
+        <a href="#home" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 active transition-colors"><i data-lucide="home" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Home</span></a>
+        <a href="#books-trigger" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="book-open" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Books</span></a>
+        <a href="#about" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="user" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">About</span></a>
+        <a href="#gallery" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="image" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Gallery</span></a>
+        <a href="#videos" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="play-circle" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Watch</span></a>
     </div>
 
-    <section id="home" class="min-h-screen flex items-center justify-center pt-20 pb-10 md:pt-20 md:pb-12 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-8 md:gap-12 items-center relative z-10 w-full">
-            <div class="text-center lg:text-left order-2 lg:order-1">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-orange-100 text-primary text-xs font-bold uppercase tracking-wider mb-4 md:mb-6 shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Author & Poet
+    <!-- HERO SECTION: Redesigned for "Heart Touching" Mobile Experience -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-[90px] pb-24 md:pt-20 md:pb-12 relative overflow-hidden bg-gradient-to-b from-white via-orange-50/30 to-white">
+        
+        <!-- Decorative Background Elements -->
+        <div class="absolute top-20 left-0 w-64 h-64 bg-orange-200/20 rounded-full blur-[80px] -z-10 animate-pulse-slow"></div>
+        <div class="absolute bottom-20 right-0 w-72 h-72 bg-blue-100/30 rounded-full blur-[80px] -z-10 animate-pulse-slow" style="animation-delay: 2s;"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8 md:gap-16 items-center relative z-10 w-full">
+            
+            <!-- Mobile Layout: Text First (Refined) -->
+            <div class="text-center lg:text-left order-2 lg:order-1 flex flex-col items-center lg:items-start relative">
+                
+                <!-- Badge -->
+                <div class="fade-up-element inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-orange-100 text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-6 shadow-sm ring-1 ring-orange-50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> Indian Author & Poet
                 </div>
-                <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-slate-900 leading-[1.1] lg:leading-[1] mb-4 md:mb-6 text-balanced">
-                    Awakening the <br><span class="text-primary italic relative inline-block">Consciousness</span>
+
+                <!-- Main Title with emotive typography -->
+                <h1 class="fade-up-element font-serif text-[2.75rem] md:text-7xl lg:text-8xl font-medium text-slate-900 leading-[1.15] mb-6 text-balanced drop-shadow-sm" style="transition-delay: 0.1s;">
+                    Awakening <br>
+                    <span class="italic font-light text-slate-800">the</span> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-600 italic font-bold relative inline-block">
+                        Consciousness
+                        <!-- Small decorative underline -->
+                        <svg class="absolute w-full h-2 -bottom-1 left-0 text-orange-300" viewBox="0 0 100 10" preserveAspectRatio="none">
+                            <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="2" fill="none" />
+                        </svg>
+                    </span>
                 </h1>
-                <p class="text-base md:text-lg text-slate-600 mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed px-2 lg:px-0 text-balanced">
-                    Surya Bharti challenges societal norms through literature. Exploring the depths of mythology, philosophy, and the modern human condition.
+
+                <!-- Subtext -->
+                <p class="fade-up-element text-base md:text-xl text-slate-600 mb-8 max-w-md leading-relaxed text-balanced font-light" style="transition-delay: 0.2s;">
+                    Challenging societal norms through the lens of ancient wisdom. Exploring mythology, philosophy, and the depth of the <span class="font-serif italic text-slate-800">human soul</span>.
                 </p>
-                <div class="flex gap-4 justify-center lg:justify-start">
-                    <a href="#books-trigger" class="px-6 py-3 md:px-8 md:py-4 bg-primary text-white rounded-full font-bold shadow-lg flex items-center gap-2 hover:bg-orange-700 transition-all active:scale-95 text-sm md:text-base">
-                        Start Reading <i data-lucide="arrow-down" class="w-4 h-4 md:w-5 md:h-5 animate-bounce"></i>
+
+                <!-- CTAs -->
+                <div class="fade-up-element flex flex-col sm:flex-row gap-4 w-full sm:w-auto" style="transition-delay: 0.3s;">
+                    <a href="#books-trigger" class="px-8 py-4 bg-slate-900 text-white rounded-full font-medium shadow-soft hover:shadow-xl hover:bg-primary transition-all active:scale-95 flex items-center justify-center gap-2 group w-full sm:w-auto">
+                        Start Reading 
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#about" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-full font-medium hover:border-slate-300 hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center w-full sm:w-auto">
+                        Know the Author
                     </a>
                 </div>
             </div>
-            <div class="relative h-[400px] md:h-[600px] flex items-center justify-center order-1 lg:order-2 w-full">
-                <div class="absolute inset-0 bg-gradient-to-tr from-orange-200/40 to-transparent rounded-full blur-3xl scale-75"></div>
-                <div id="hero-image-container" class="relative z-10 w-full h-full max-w-none transition-transform duration-700 ease-out group">
-                     <img id="hero-img" src="images/homeimage.png?v=20251228" alt="Hero image" class="object-contain w-full h-full img-zoom" loading="lazy">
+            
+            <!-- Hero Image: Attractive & Soft -->
+            <div class="fade-up-element relative h-[380px] md:h-[650px] flex items-center justify-center order-1 lg:order-2 w-full mt-2 lg:mt-0" style="transition-delay: 0s;">
+                <div id="hero-image-container" class="relative z-10 w-full h-full max-w-sm lg:max-w-none transition-transform duration-700 ease-out group mx-auto">
+                    <!-- Soft Inner Glow behind image -->
+                    <div class="absolute inset-4 bg-gradient-to-t from-orange-200/50 to-transparent rounded-full blur-2xl -z-10 animate-pulse-slow"></div>
+                    
+                    <img id="hero-img" src="images/homeimage.png?v=20251228" alt="Surya Bharti poet and Author" class="object-contain w-full h-full img-zoom drop-shadow-2xl hero-img-mask md:mask-none" loading="lazy" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));">
+                    
+                    <!-- Floating Quote Card (Mobile Only Enhancement) -->
+                    <!-- Moved down to -bottom-10 on mobile to clear the image -->
+                    <div class="absolute -bottom-10 -right-2 md:bottom-10 md:-left-10 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-glass border border-white/40 max-w-[200px] transform rotate-2 animate-float-slow lg:block z-20">
+                        <div class="text-orange-500 mb-1"><i data-lucide="feather" class="w-4 h-4"></i></div>
+                        <p class="text-[10px] font-serif italic text-slate-800 leading-snug">
+                            "We write not to be remembered, but to wake up those who are sleeping."
+                        </p>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-24 md:bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce">
+            <span class="text-[10px] uppercase tracking-widest text-slate-400">Scroll</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+        </div>
+    </section>
+
+    <!-- QUOTE SECTION (Cleaned up) -->
+    <section class="py-16 md:py-24 bg-white text-center px-6 relative border-b border-gray-50">
+        <div class="max-w-3xl mx-auto">
+            <div class="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-50 text-primary"><i data-lucide="quote" class="w-5 h-5"></i></div>
+            <h2 class="font-serif text-2xl md:text-4xl text-slate-900 leading-snug mb-6 text-balanced font-medium italic">
+                The ink of a writer is the blood of their thoughts.
+            </h2>
+            <div class="flex items-center justify-center gap-3">
+                <div class="h-px w-8 bg-slate-200"></div>
+                <p class="text-slate-500 uppercase tracking-widest text-xs font-bold">Surya Bharti</p>
+                <div class="h-px w-8 bg-slate-200"></div>
             </div>
         </div>
     </section>
 
-    <section class="py-16 bg-white text-center px-6 relative border-b border-gray-50">
-        <div class="max-w-4xl mx-auto">
-            <i data-lucide="quote" class="w-8 h-8 text-primary/20 mx-auto mb-4"></i>
-            <h2 class="font-serif text-xl md:text-4xl text-slate-900 leading-tight mb-4 text-balanced">
-                "We write not to be remembered,<br> but to wake up those who are sleeping."
-            </h2>
-            <p class="text-slate-400 uppercase tracking-widest text-xs font-bold">— Surya Bharti</p>
-        </div>
-    </section>
-
+    <!-- BOOKS HORIZONTAL SCROLL (Unchanged structure, just ensuring smooth flow) -->
     <section id="books-trigger" class="bg-slate-50 text-slate-900 horizontal-section relative">
-        
-        <div class="absolute bottom-20 md:bottom-10 left-6 right-6 md:left-10 md:right-10 h-1 bg-slate-200 rounded-full overflow-hidden z-20 max-w-md pointer-events-none">
+        <div class="absolute bottom-24 md:bottom-10 left-6 right-6 md:left-10 md:right-10 h-1 bg-slate-200 rounded-full overflow-hidden z-20 max-w-md pointer-events-none opacity-50 md:opacity-100">
             <div id="books-progress" class="h-full bg-primary w-0"></div>
         </div>
 
         <div class="horizontal-scroll-wrapper" id="books-wrapper">
-            <div class="w-[85vw] md:w-[350px] flex-shrink-0 flex flex-col justify-center h-full pr-4 md:pr-10">
-                <p class="text-lg md:text-3xl text-slate-500 leading-relaxed font-serif italic relative border-l-4 border-primary pl-6">
-                    <span class="hidden md:block text-8xl text-primary absolute -top-12 -left-6 opacity-10">"</span>
-                    Books are mirrors: you only see in them what you already have inside you.
+            <!-- Intro Text Card -->
+            <div class="w-[80vw] md:w-[350px] flex-shrink-0 flex flex-col justify-center h-full pr-4 md:pr-10">
+                <p class="text-xl md:text-4xl text-slate-400 leading-tight font-serif italic relative">
+                    Books represent<br> <span class="text-slate-800 font-bold not-italic">Reflections</span> of the self.
                 </p>
+                <div class="mt-4 flex items-center gap-2 text-primary text-sm font-bold animate-bounce md:hidden">
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i> Swipe
+                </div>
             </div>
 
-            <div class="w-[85vw] md:w-[650px] flex-shrink-0 relative group perspective-1000 h-full flex items-center">
-                <div class="hidden md:block absolute -top-20 -left-10 text-[10rem] font-serif font-bold text-slate-200 opacity-30 select-none z-0">01</div>
-                <div class="bg-white p-5 md:p-10 rounded-2xl md:rounded-[2rem] shadow-xl border border-white/60 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center w-full">
-                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0">
-                        <div class="aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden shadow-lg border border-slate-100"><img src="images/antimraahi.jpg" class="w-full h-full object-cover"></div>
+            <!-- BOOK 1 -->
+            <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
+                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/antimraahi.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     </div>
                     <div class="text-center md:text-left">
-                        <span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-full mb-2 inline-block">Philosophy</span>
-                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-2 leading-tight">Antim Raahi</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3">The journey of the last traveler. A compelling narrative exploring human endurance.</p>
-                        <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto px-4 py-2 bg-secondary text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Buy Now</a>
+                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Philosophy</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-3 leading-tight">Antim Raahi</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">The journey of the last traveler. A compelling narrative exploring human endurance.</p>
+                        <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Read Now</a>
                     </div>
                 </div>
             </div>
 
-            <div class="w-[85vw] md:w-[650px] flex-shrink-0 relative group perspective-1000 h-full flex items-center">
-                <div class="hidden md:block absolute -top-20 -left-10 text-[10rem] font-serif font-bold text-slate-200 opacity-30 select-none z-0">02</div>
-                <div class="bg-white p-5 md:p-10 rounded-2xl md:rounded-[2rem] shadow-xl border border-white/60 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center w-full">
-                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0">
-                        <div class="aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden shadow-lg border border-slate-100"><img src="images/kranti.jpg" class="w-full h-full object-cover"></div>
+            <!-- BOOK 2 -->
+            <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
+                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/kranti.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     </div>
                     <div class="text-center md:text-left">
-                        <span class="px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold uppercase rounded-full mb-2 inline-block">Bestseller</span>
-                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-2 leading-tight">Kranti</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3">A poetic assault on societal stagnation. It demands change.</p>
-                        <a href="https://play.google.com/store/books/details/Kranti_Hindi_Edition?id=vw9nEQAAQBAJ" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto px-4 py-2 bg-secondary text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Buy Now</a>
+                        <span class="px-2 py-1 bg-red-50 text-red-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Bestseller</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-3 leading-tight">Kranti</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">A poetic assault on societal stagnation. It demands change.</p>
+                        <a href="https://play.google.com/store/books/details/Kranti_Hindi_Edition?id=vw9nEQAAQBAJ" target="_blank" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Read Now</a>
                     </div>
                 </div>
             </div>
 
-            <div class="w-[85vw] md:w-[650px] flex-shrink-0 relative group perspective-1000 h-full flex items-center">
-                <div class="hidden md:block absolute -top-20 -left-10 text-[10rem] font-serif font-bold text-slate-200 opacity-30 select-none z-0">03</div>
-                <div class="bg-white p-5 md:p-10 rounded-2xl md:rounded-[2rem] shadow-xl border border-white/60 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center w-full">
-                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0">
-                        <div class="aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden shadow-lg border border-slate-100"><img src="images/sitam.jpg" class="w-full h-full object-cover"></div>
+             <!-- BOOK 3 -->
+            <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
+                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/sitam.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     </div>
                     <div class="text-center md:text-left">
-                        <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase rounded-full mb-2 inline-block">Prose</span>
-                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-2 leading-tight">Sitam</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3">A collection of wounds turned into words. Sitam explores pain and growth.</p>
-                        <a href="https://play.google.com/store/books/details/Surya_Bharti_SITAM?id=ngFjEQAAQBAJ" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto px-4 py-2 bg-secondary text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Buy Now</a>
+                        <span class="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Prose</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-3 leading-tight">Sitam</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">A collection of wounds turned into words. Sitam explores pain and growth.</p>
+                        <a href="https://play.google.com/store/books/details/Surya_Bharti_SITAM?id=ngFjEQAAQBAJ" target="_blank" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Read Now</a>
                     </div>
                 </div>
             </div>
 
-            <div class="w-[85vw] md:w-[650px] flex-shrink-0 relative group perspective-1000 h-full flex items-center">
-                <div class="hidden md:block absolute -top-20 -left-10 text-[10rem] font-serif font-bold text-slate-200 opacity-30 select-none z-0">04</div>
-                <div class="bg-white p-5 md:p-10 rounded-2xl md:rounded-[2rem] shadow-xl border border-white/60 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center w-full">
-                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0">
-                        <div class="aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden shadow-lg border border-slate-100"><img src="images/Tara%20Hindustan%20Ka.jpg" class="w-full h-full object-cover"></div>
+            <!-- BOOK 4 -->
+            <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
+                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/Tara%20Hindustan%20Ka.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     </div>
                     <div class="text-center md:text-left">
-                        <span class="px-2 py-0.5 bg-orange-50 text-orange-600 text-[10px] font-bold uppercase rounded-full mb-2 inline-block">Patriotic</span>
-                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-2 leading-tight">Tara Hindustan Ka</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3">A gripping tale of valor. Brings to life the unsung heroes of the nation.</p>
-                        <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto px-4 py-2 bg-secondary text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Buy Now</a>
+                        <span class="px-2 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Patriotic</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-3 leading-tight">Tara Hindustan Ka</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">A gripping tale of valor. Brings to life the unsung heroes of the nation.</p>
+                        <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Read Now</a>
                     </div>
                 </div>
             </div>
-            
-             <div class="w-[85vw] md:w-[650px] flex-shrink-0 relative group perspective-1000 h-full flex items-center">
-                <div class="hidden md:block absolute -top-20 -left-10 text-[10rem] font-serif font-bold text-slate-200 opacity-30 select-none z-0">05</div>
-                <div class="bg-white p-5 md:p-10 rounded-2xl md:rounded-[2rem] shadow-xl border border-white/60 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center w-full">
-                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0">
-                        <div class="aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden shadow-lg border border-slate-100"><img src="images/krishnatva.jpg" class="w-full h-full object-cover"></div>
+
+            <!-- BOOK 5 -->
+            <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
+                    <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
+                        <div class="aspect-[2/3] bg-slate-100"><img src="images/krishnatva.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     </div>
                     <div class="text-center md:text-left">
-                        <span class="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-full mb-2 inline-block">Mythology</span>
-                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-2 leading-tight">Krishnatva</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3">Beyond the flute lies the supreme intellect. A modern re-telling of the Gita.</p>
-                        <a href="https://store.pothi.com/book/surya-bharti-krishnatva-1/" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto px-4 py-2 bg-secondary text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Buy Now</a>
+                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Mythology</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 mb-3 leading-tight">Krishnatva</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 md:line-clamp-none">Beyond the flute lies the supreme intellect. A modern re-telling of the Gita.</p>
+                        <a href="https://store.pothi.com/book/surya-bharti-krishnatva-1/" target="_blank" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-primary transition-colors">Read Now</a>
                     </div>
                 </div>
             </div>
@@ -267,35 +426,35 @@
         </div>
     </section>
 
+    <!-- ABOUT SECTION -->
     <section id="about" class="py-16 md:py-24 bg-white relative overflow-hidden border-t border-slate-50">
         <div class="absolute top-0 right-0 w-1/2 h-full bg-orange-50/30 -skew-x-12 transform translate-x-1/4 z-0"></div>
-        <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="grid md:grid-cols-12 gap-12 items-center">
-                <div class="md:col-span-5 relative order-1 md:order-1">
-                    <div class="absolute top-4 -left-4 w-full h-full border-2 border-primary rounded-2xl z-0 hidden md:block"></div>
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl z-10 aspect-[3/4] group bg-gray-100">
-                        <img src="images/Author.png" alt="Surya Bharti" class="w-full h-full object-cover transition-all duration-1000 transform group-hover:scale-105" loading="lazy">
+                <div class="md:col-span-5 relative order-1">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl z-10 aspect-[3/4] group bg-gray-200">
+                        <img src="images/Author.png" alt="Surya Bharti poet and Author" class="w-full h-full object-cover transition-all duration-1000 transform group-hover:scale-105" loading="lazy">
                     </div>
                 </div>
-                <div class="md:col-span-7 order-2 md:order-2 md:pl-10">
+                <div class="md:col-span-7 order-2 md:pl-10">
                     <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-primary font-bold tracking-widest text-[10px] md:text-xs uppercase mb-4">The Mind Behind the Words</span>
                     <h2 class="font-serif text-3xl md:text-5xl text-slate-900 mb-6 leading-tight">Surya Bharti</h2>
                     <div class="space-y-4 text-slate-600 font-sans text-base md:text-lg leading-relaxed text-balanced">
                         <p>Surya Bharti is a contemporary thinker, poet, and author whose work cuts through the noise of modern existence. Born with a curiosity for the ancient and a critical eye for the present.</p>
-                        <p>Author of the bestselling <em>"Kranti"</em> and the profound <em>"Krishnatva"</em>.</p>
                     </div>
                     <div class="grid grid-cols-3 gap-4 mt-8 border-t border-gray-100 pt-6 items-center">
-                        <div><span class="block text-2xl font-serif font-bold text-slate-900">5</span><span class="text-[10px] text-slate-400 uppercase font-bold">Books</span></div>
-                        <div><span class="block text-2xl font-serif font-bold text-slate-900">1700+</span><span class="text-[10px] text-slate-400 uppercase font-bold">Verses</span></div>
-                        <div class="flex justify-end md:justify-start"><img src="https://signature.freefire-name.com/img.php?f=7&t=Surya%20Bharti" alt="Signature" class="h-8 opacity-60"></div>
+                        <div class="text-center md:text-left"><span class="block text-2xl font-serif font-bold text-slate-900">5</span><span class="text-[10px] text-slate-400 uppercase font-bold">Books</span></div>
+                        <div class="text-center md:text-left"><span class="block text-2xl font-serif font-bold text-slate-900">1.7k+</span><span class="text-[10px] text-slate-400 uppercase font-bold">Verses</span></div>
+                         <div class="flex justify-center md:justify-start"><img src="https://signature.freefire-name.com/img.php?f=7&t=Surya%20Bharti" alt="Surya Bharti poet and Author" class="h-8 opacity-60"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="poems-trigger" class="bg-bg-paper text-slate-800 horizontal-section">
-         <div class="absolute top-6 left-6 md:top-10 md:left-10 z-10 pointer-events-none">
+    <!-- POEMS SCROLL -->
+    <section id="poems-trigger" class="bg-bg-paper text-slate-800 horizontal-section relative">
+         <div class="absolute top-6 left-6 md:top-10 md:left-10 z-10 pointer-events-none mix-blend-multiply">
             <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 mb-2">Poetry</h2>
             <p class="text-primary font-sans tracking-widest text-xs font-bold flex items-center gap-2">
                 <i data-lucide="feather" class="w-4 h-4"></i> VERSES FROM THE SOUL
@@ -305,30 +464,30 @@
         <div class="horizontal-scroll-wrapper" id="poems-wrapper">
              <div class="w-[85vw] md:w-[150px] hidden md:block"></div>
 
-            <div class="w-[85vw] md:w-[400px] flex-shrink-0 bg-white p-6 md:p-8 rounded-xl shadow-xl border border-gray-100 relative group mt-16 md:mt-0">
+            <div class="w-[85vw] md:w-[400px] flex-shrink-0 bg-white p-6 md:p-8 rounded-xl shadow-soft border border-gray-100 relative group mt-20 md:mt-0 transition-transform hover:-translate-y-2 duration-300">
                 <div class="absolute top-0 left-0 w-2 h-full bg-primary transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
-                <h3 class="font-hindiTitle text-xl md:text-3xl font-bold mb-4 leading-tight">कालजयी उन्माद</h3>
-                <div class="font-hindiBody text-base md:text-lg leading-loose text-gray-700 italic border-l-4 border-gray-200 pl-4 mb-6">
+                <h3 class="font-hindiTitle text-2xl md:text-3xl font-bold mb-4 leading-tight text-slate-900">कालजयी उन्माद</h3>
+                <div class="font-hindiBody text-lg leading-loose text-gray-700 italic border-l-4 border-gray-100 pl-4 mb-6">
                     "ज्वालाओं में शीतलता है, शूलों पर विश्राम बना,<br>
                     विष-प्याले में झलके अमृत, जब से यह उन्माद बना।"
                 </div>
                 <div class="flex justify-between items-center text-[10px] font-bold tracking-widest text-gray-400"><span>PHILOSOPHY</span><span>HINDI</span></div>
             </div>
 
-            <div class="w-[85vw] md:w-[400px] flex-shrink-0 bg-white p-6 md:p-8 rounded-xl shadow-xl border border-gray-100 relative group mt-16 md:mt-0">
+            <div class="w-[85vw] md:w-[400px] flex-shrink-0 bg-white p-6 md:p-8 rounded-xl shadow-soft border border-gray-100 relative group mt-20 md:mt-0 transition-transform hover:-translate-y-2 duration-300">
                 <div class="absolute top-0 left-0 w-2 h-full bg-primary transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top"></div>
-                <h3 class="font-hindiTitle text-xl md:text-3xl font-bold mb-4 leading-tight">बूँद ही सिंधु</h3>
-                <div class="font-hindiBody text-base md:text-lg leading-loose text-gray-700 italic border-l-4 border-gray-200 pl-4 mb-6">
+                <h3 class="font-hindiTitle text-2xl md:text-3xl font-bold mb-4 leading-tight text-slate-900">बूँद ही सिंधु</h3>
+                <div class="font-hindiBody text-lg leading-loose text-gray-700 italic border-l-4 border-gray-100 pl-4 mb-6">
                     "मिटे भेद सब 'पर' 'अपने' के, एक वही विस्तार हुआ,<br>
                     बूँद सिंधु में लीन हुई न, बूँद ही सिंधु-धार हुआ।"
                 </div>
                 <div class="flex justify-between items-center text-[10px] font-bold tracking-widest text-gray-400"><span>NON-DUALITY</span><span>HINDI</span></div>
             </div>
 
-            <div class="w-[85vw] md:w-[400px] flex-shrink-0 bg-gradient-to-b from-orange-50 via-white to-green-50 p-6 md:p-8 rounded-xl shadow-xl border border-white/60 relative group mt-16 md:mt-0">
+            <div class="w-[85vw] md:w-[400px] flex-shrink-0 bg-gradient-to-br from-orange-50 to-white p-6 md:p-8 rounded-xl shadow-soft border border-orange-100 relative group mt-20 md:mt-0 transition-transform hover:-translate-y-2 duration-300">
                 <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-500 via-white to-green-600 rounded-t-xl"></div>
-                <h3 class="font-hindiTitle text-xl md:text-3xl font-bold mb-4 leading-tight text-slate-800">हिंदुस्तान हमारा</h3>
-                <div class="font-hindiBody text-base md:text-lg leading-loose text-slate-700 italic border-l-4 border-orange-200 pl-4 mb-6">
+                <h3 class="font-hindiTitle text-2xl md:text-3xl font-bold mb-4 leading-tight text-slate-900">हिंदुस्तान हमारा</h3>
+                <div class="font-hindiBody text-lg leading-loose text-slate-700 italic border-l-4 border-orange-200 pl-4 mb-6">
                     "नफ़रत की तेज़ लपटें, दामन जला न पाईं,<br>
                     उल्फत की बारिशों से, है इम्तिहाँ हमारा।"
                 </div>
@@ -339,45 +498,48 @@
         </div>
     </section>
 
+    <!-- GALLERY -->
     <section id="gallery" class="py-16 md:py-24 bg-white border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4">
-             <div class="text-center mb-10">
-                <h2 class="font-serif text-3xl text-slate-900 mb-2">Visual Journey</h2>
-                <div class="w-10 h-1 bg-primary mx-auto"></div>
+             <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl text-slate-900 mb-3">Visual Journey</h2>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
             </div>
-            <div class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4" id="gallery-masonry">
-                <!-- Images will be populated dynamically from an array (images1 → last). -->
+            <div class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 px-2" id="gallery-masonry">
+                <!-- Images will be populated dynamically -->
             </div>
         </div>
     </section>
 
+    <!-- VIDEOS -->
     <section id="videos" class="py-16 md:py-24 bg-bg-off">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-10">
-                <h2 class="font-serif text-3xl text-slate-900 mb-2">Watch & Listen</h2>
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl text-slate-900 mb-3">Watch & Listen</h2>
                 <p class="text-slate-500 text-sm">Explore reels and discussions.</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="videos-grid">
-                <!-- Reels will be populated dynamically from an array (short1 → last). -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 px-2" id="videos-grid">
+                <!-- Reels will be populated dynamically -->
             </div>
         </div>
     </section>
 
-    <footer class="bg-slate-900 text-white py-12 md:py-16 border-t border-slate-800 pb-24 md:pb-12">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-center md:text-left">
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white py-12 border-t border-slate-800 pb-24 md:pb-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+                <div>
                     <h2 class="font-serif text-2xl font-bold">Surya Bharti</h2>
-                    <p class="text-slate-400 text-sm mt-2">Bridging ancient wisdom with modern thought.</p>
+                    <p class="text-slate-400 text-sm mt-2 max-w-xs mx-auto md:mx-0">Bridging ancient wisdom with modern thought through the power of words.</p>
                 </div>
-                <div class="flex gap-4 text-slate-400">
-                    <i data-lucide="instagram" class="w-5 h-5 cursor-pointer hover:text-white"></i>
-                    <i data-lucide="twitter" class="w-5 h-5 cursor-pointer hover:text-white"></i>
-                    <i data-lucide="youtube" class="w-5 h-5 cursor-pointer hover:text-white"></i>
+                <div class="flex gap-6 text-slate-400">
+                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i data-lucide="youtube" class="w-6 h-6"></i></a>
                 </div>
             </div>
-            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-xs text-slate-500">
-                &copy; 2025 Surya Bharti. Designed in India.
+            <div class="border-t border-slate-800 mt-10 pt-8 text-center text-xs text-slate-600">
+                &copy; 2025 Surya Bharti. All rights reserved.
             </div>
         </div>
     </footer>
@@ -385,27 +547,60 @@
     <script>
         lucide.createIcons();
 
-        // SPLASH SCREEN
+        // UPDATED SPLASH SCREEN LOGIC
         window.addEventListener('load', () => {
+            const tl = gsap.timeline();
             const splash = document.getElementById('splash-screen');
-            setTimeout(() => { splash.classList.add('opacity-0', 'pointer-events-none'); }, 2500); 
+            const body = document.body;
+
+            // Animate Main Shloka
+            tl.to(".shloka-text", {
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: "power3.out"
+            })
+            // Animate Subtext
+            .to(".shloka-sub", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=1")
+            // Hold
+            .to({}, { duration: 1.2 })
+            // Exit
+            .to(splash, {
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    splash.style.display = 'none';
+                    body.classList.remove('overflow-hidden');
+                    
+                    // Trigger Hero Animations after splash
+                    document.querySelectorAll('.fade-up-element').forEach((el, index) => {
+                        setTimeout(() => {
+                            el.classList.add('visible');
+                        }, 100 + (index * 150));
+                    });
+                }
+            });
         });
 
         // GSAP CONFIG
         gsap.registerPlugin(ScrollTrigger);
-        // Important: Prevent layout shifting on mobile address bar resizing
         ScrollTrigger.config({ ignoreMobileResize: true });
 
-        // --- UNIFIED ANIMATION LOGIC (Applies to both Mobile & Desktop) ---
+        // --- UNIFIED SCROLL ANIMATIONS ---
         function initAnimations() {
             // BOOKS SECTION
             const booksSection = document.getElementById("books-trigger");
             const booksWrapper = document.getElementById("books-wrapper");
             
-            // Calculate scroll amount: Content Width - Viewport Width
             function getScrollAmount(wrapper) { return -(wrapper.scrollWidth - window.innerWidth); }
 
-            gsap.to(booksWrapper, {
+            const booksTween = gsap.to(booksWrapper, {
                 x: () => getScrollAmount(booksWrapper),
                 ease: "none",
                 scrollTrigger: {
@@ -413,8 +608,7 @@
                     start: "top top",
                     end: () => "+=" + (booksWrapper.scrollWidth - window.innerWidth),
                     pin: true,
-                    // Use slightly different scrub for mobile to feel responsive to touch
-                    scrub: window.innerWidth < 768 ? 0.5 : 1, 
+                    scrub: window.innerWidth < 768 ? 0.3 : 1, // Faster reaction on mobile
                     invalidateOnRefresh: true,
                     onUpdate: (self) => {
                          gsap.to("#books-progress", { width: self.progress * 100 + "%", duration: 0.1 });
@@ -433,14 +627,14 @@
                     start: "top top",
                     end: () => "+=" + (poemsWrapper.scrollWidth - window.innerWidth),
                     pin: true,
-                    scrub: window.innerWidth < 768 ? 0.5 : 1,
+                    scrub: window.innerWidth < 768 ? 0.3 : 1,
                     invalidateOnRefresh: true
                 }
             });
         }
         
         // Init
-        initAnimations();
+        setTimeout(initAnimations, 100); // Slight delay ensures layout is ready
 
         // Mobile Nav Logic
         const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
@@ -449,6 +643,30 @@
                 mobileNavItems.forEach(nav => nav.classList.remove('active'));
                 this.classList.add('active');
             });
+        });
+        
+        // Header Scroll Effect (Mobile & Desktop)
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const mobileHeader = document.getElementById('mobile-header');
+            const desktopNav = document.getElementById('desktop-nav');
+            
+            if (currentScroll > 50) {
+                 if (currentScroll > lastScroll) {
+                    // Scrolling Down - Hide
+                    if(mobileHeader) mobileHeader.style.transform = 'translateY(-100%)';
+                    if(desktopNav) desktopNav.style.transform = 'translateY(-100%)';
+                 } else {
+                    // Scrolling Up - Show
+                    if(mobileHeader) mobileHeader.style.transform = 'translateY(0)';
+                    if(desktopNav) desktopNav.style.transform = 'translateY(0)';
+                 }
+            } else {
+                 if(mobileHeader) mobileHeader.style.transform = 'translateY(0)';
+                 if(desktopNav) desktopNav.style.transform = 'translateY(0)';
+            }
+            lastScroll = currentScroll;
         });
 
         // Video Player Logic
@@ -462,37 +680,36 @@
             });
         });
 
-        // Cache Buster for Hero Image
+        // Cache Buster
         (function(){
             const img = document.getElementById('hero-img');
             if(img) img.src = img.src.split('?')[0] + '?ts=' + Date.now();
         })();
 
-        // Dynamic gallery and reels (probe filename patterns and only include files that exist) 🔧
+        // Dynamic gallery and reels
         (function(){
             const gallery = document.getElementById('gallery-masonry');
             const videosGrid = document.getElementById('videos-grid');
 
-            // Helper to append an image element into the gallery
             function appendImage(src){
                 const div = document.createElement('div');
-                div.className = 'break-inside-avoid rounded-lg overflow-hidden shadow group relative cursor-zoom-in';
+                div.className = 'break-inside-avoid rounded-lg overflow-hidden shadow-sm group relative mb-4';
                 const img = document.createElement('img');
-                img.src = src; img.loading = 'lazy'; img.className = 'w-full object-cover group-hover:scale-105 transition-transform';
+                img.src = src; img.alt = "Surya Bharti poet and Author"; img.loading = 'lazy'; img.className = 'w-full object-cover group-hover:scale-105 transition-transform duration-700';
                 div.appendChild(img);
                 gallery.appendChild(div);
             }
 
-            // Probe for image files using two naming patterns: imagesN and imageN (covers both styles)
             if(gallery){
                 const added = new Set();
-                const maxImages = 20; // increased to include image13 and more
+                const maxImages = 20;
 
                 function probeCandidates(candidates, onFound, onMissing){
                     let resolved = false; let errors = 0;
                     candidates.forEach(src => {
                         if(added.has(src)) { resolved = true; onFound(src); return; }
                         const img = new Image();
+                        img.alt = "Surya Bharti poet and Author";
                         img.onload = () => { if(!resolved){ resolved = true; added.add(src); onFound(src); } };
                         img.onerror = () => { errors++; if(errors === candidates.length && !resolved){ onMissing(); } };
                         img.src = src;
@@ -505,21 +722,19 @@
                         `images/images${i}.jpeg`, `images/image${i}.jpeg`,
                         `images/images${i}.png`, `images/image${i}.png`
                     ];
-                    // Skip missing images entirely (no placeholder). Log missing ones for debugging.
-                    probeCandidates(candidates, (src)=>{ appendImage(src); }, ()=>{ console.warn('Missing image for index', i); });
+                    probeCandidates(candidates, (src)=>{ appendImage(src); }, ()=>{});
                 }
             }
 
-            // Helper to append a video wrapper (uses an existing video element to avoid double-loading)
             function appendVideoWrapper(video){
                 const wrapper = document.createElement('div');
-                wrapper.className = 'group cursor-pointer relative rounded-xl overflow-hidden shadow-lg aspect-[9/16] bg-black';
-                video.className = 'reel-video w-full h-full object-cover';
+                wrapper.className = 'group cursor-pointer relative rounded-xl overflow-hidden shadow-sm aspect-[9/16] bg-slate-900';
+                video.className = 'reel-video w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity';
                 wrapper.appendChild(video);
 
                 const overlay = document.createElement('div');
-                overlay.className = 'absolute inset-0 flex items-center justify-center pointer-events-none';
-                overlay.innerHTML = '<div class="w-12 h-12 bg-white/20 backdrop-blur rounded-full flex items-center justify-center"><i data-lucide="play" class="w-5 h-5 text-white fill-white"></i></div>';
+                overlay.className = 'absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300';
+                overlay.innerHTML = '<div class="w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center"><i data-lucide="play" class="w-4 h-4 text-white fill-white"></i></div>';
                 wrapper.appendChild(overlay);
 
                 wrapper.addEventListener('click', () => {
@@ -528,12 +743,11 @@
                 });
 
                 videosGrid.appendChild(wrapper);
-                lucide.createIcons(); // refresh icons for injected nodes
+                lucide.createIcons();
             }
 
-            // Probe for reels using consistent pattern shortN (case-insensitive for common cases)
             if(videosGrid){
-                const maxReels = 8; // increase if you have more
+                const maxReels = 8;
                 for(let i=1;i<=maxReels;i++){
                     let appended = false;
                     const candidates = [`videos/short${i}.mp4`, `videos/Short${i}.mp4`, `videos/short${i}.webm`];
@@ -543,13 +757,8 @@
                         video.setAttribute('playsinline',''); video.loop = true; video.muted = true; video.preload = 'metadata';
                         const source = document.createElement('source'); source.src = src; source.type = 'video/mp4';
                         video.appendChild(source);
-
-                        // If metadata loads successfully, we know the file exists and can append it
                         video.onloadedmetadata = () => { if(!appended){ appended = true; appendVideoWrapper(video); } };
-                        video.onerror = () => { /* try next candidate */ };
-
-                        // Start load attempt
-                        try{ video.load(); }catch(e){ /* ignore load errors */ }
+                        try{ video.load(); }catch(e){}
                     }
                 }
             }
