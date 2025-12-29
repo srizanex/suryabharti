@@ -151,7 +151,21 @@
             opacity: 1;
             transform: translateY(0);
         }
-    </style>
+
+        /* Lightbox Styles */
+        .lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
+        .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+        .lightbox-content { max-width: 1100px; width: 100%; max-height: 85vh; display:flex; align-items:center; justify-content:center; position: relative; padding: 20px; }
+        .lightbox-content img { display:block; max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); object-fit: contain; transition: transform 200ms ease, opacity 150ms ease; }
+        .lightbox-content img.fit-width { width: 95vw; height: auto; max-width: 1100px; }
+        .lightbox-content img.fit-height { height: 85vh; width: auto; max-height: 85vh; }
+        .lightbox-close, .lightbox-nav { position: absolute; background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 10px; color: #fff; cursor: pointer; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.04); }
+        .lightbox-close { right: 10px; top: 10px; font-size: 20px; line-height: 1; }
+        .lightbox-nav { top: 50%; transform: translateY(-50%); font-size: 28px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+        .lightbox-nav.prev { left: 10px; }
+        .lightbox-nav.next { right: 10px; }
+        @media (max-width: 768px) { .lightbox-nav { display: none; } .lightbox-content { padding: 12px; } .lightbox-content img.fit-width { width: calc(100vw - 32px); } }
+    </style> 
 </head>
 <body class="bg-bg-light text-slate-800 font-sans antialiased pb-20 md:pb-0 overflow-hidden">
 
@@ -762,6 +776,91 @@
                     }
                 }
             }
+
+            // Lightbox (fullscreen viewer) for gallery images
+            (function(){
+                let currentIndex = 0;
+
+                // Create overlay
+                const lightboxOverlay = document.createElement('div');
+                lightboxOverlay.className = 'lightbox-overlay';
+                lightboxOverlay.innerHTML = '<div class="lightbox-content"><button class="lightbox-close" aria-label="Close">&times;</button><button class="lightbox-nav prev" aria-label="Previous">&#10094;</button><button class="lightbox-nav next" aria-label="Next">&#10095;</button><img src="" alt="Surya Bharti poet and Author"></div>';
+                document.body.appendChild(lightboxOverlay);
+
+                const lbImg = lightboxOverlay.querySelector('img');
+                const lbClose = lightboxOverlay.querySelector('.lightbox-close');
+                const lbPrev = lightboxOverlay.querySelector('.lightbox-nav.prev');
+                const lbNext = lightboxOverlay.querySelector('.lightbox-nav.next');
+
+                function fitByDimension(){
+                    lbImg.classList.remove('fit-width','fit-height');
+                    const iw = lbImg.naturalWidth || lbImg.width;
+                    const ih = lbImg.naturalHeight || lbImg.height;
+                    const vw = Math.max(320, window.innerWidth - 160);
+                    const vh = Math.max(240, window.innerHeight - 160);
+                    if(iw === 0 || ih === 0) { lbImg.classList.add('fit-width'); return; }
+                    if((iw/ih) > (vw/vh)){
+                        lbImg.classList.add('fit-width');
+                    } else {
+                        lbImg.classList.add('fit-height');
+                    }
+                }
+
+                function openLightbox(src){
+                    const imgs = Array.from(document.querySelectorAll('#gallery-masonry img'));
+                    currentIndex = imgs.findIndex(i => i.src.split('?')[0] === src.split('?')[0] || i.src === src);
+                    if(currentIndex === -1){ // fallback
+                        imgs.push({ src });
+                        currentIndex = imgs.length - 1;
+                    }
+                    lbImg.classList.remove('fit-width','fit-height');
+                    lbImg.onload = () => { fitByDimension(); };
+                    lbImg.src = imgs[currentIndex].src;
+                    lbImg.alt = 'Surya Bharti poet and Author';
+                    document.body.style.overflow = 'hidden';
+                    lightboxOverlay.classList.add('open');
+                }
+
+                function closeLightbox(){
+                    lightboxOverlay.classList.remove('open');
+                    lbImg.src = '';
+                    lbImg.classList.remove('fit-width','fit-height');
+                    document.body.style.overflow = '';
+                }
+
+                function navigate(dir){
+                    const imgs = Array.from(document.querySelectorAll('#gallery-masonry img'));
+                    if(imgs.length === 0) return;
+                    currentIndex = (currentIndex + dir + imgs.length) % imgs.length;
+                    lbImg.classList.remove('fit-width','fit-height');
+                    lbImg.onload = () => { fitByDimension(); };
+                    lbImg.src = imgs[currentIndex].src;
+                }
+
+                // Delegated click on gallery
+                if(gallery){
+                    gallery.addEventListener('click', (e) => {
+                        const img = e.target.closest('img');
+                        if(img && gallery.contains(img)){
+                            openLightbox(img.src);
+                        }
+                    });
+                }
+
+                lbClose.addEventListener('click', closeLightbox);
+                lightboxOverlay.addEventListener('click', (e) => { if(e.target === lightboxOverlay) closeLightbox(); });
+                lbPrev.addEventListener('click', () => navigate(-1));
+                lbNext.addEventListener('click', () => navigate(1));
+
+                window.addEventListener('resize', () => { if(lightboxOverlay.classList.contains('open')) fitByDimension(); });
+
+                document.addEventListener('keydown', (e) => {
+                    if(!lightboxOverlay.classList.contains('open')) return;
+                    if(e.key === 'Escape') closeLightbox();
+                    if(e.key === 'ArrowLeft') navigate(-1);
+                    if(e.key === 'ArrowRight') navigate(1);
+                });
+            })();
         })();
     </script>
 </body>
