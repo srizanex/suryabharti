@@ -721,6 +721,14 @@
             const gallery = document.getElementById('gallery-masonry');
             const videosGrid = document.getElementById('videos-grid');
 
+            // Loading state flags
+            let siteLoaded = false; // becomes true on window.load
+            let userReachedGallery = false; // true if user scrolls to gallery before load
+            let userReachedVideos = false; // true if user scrolls to videos before load
+            // Video loading guards
+            let videosLoadState = 'idle'; // 'idle' | 'loading' | 'loaded'
+            const appendedVideos = new Set(); // indexes of videos already appended
+
             function appendImage(src){
                 const div = document.createElement('div');
                 div.className = 'break-inside-avoid rounded-lg overflow-hidden shadow-sm group relative mb-4';
@@ -794,10 +802,15 @@
                 const galleryObserver = new IntersectionObserver((entries, obs) => {
                     entries.forEach(e => {
                         if(e.isIntersecting){
-                            // User reached gallery: cancel background loading and do immediate load
-                            galleryLoadState = 'loading';
-                            loadGalleryImages();
-                            obs.unobserve(gallery);
+                            // Mark that user reached gallery. If page already loaded, load immediately; otherwise wait for load.
+                            userReachedGallery = true;
+                            if(siteLoaded){
+                                loadGalleryImages();
+                                obs.unobserve(gallery);
+                            } else {
+                                // still unobserve to avoid duplicate triggers; we'll handle on load
+                                obs.unobserve(gallery);
+                            }
                         }
                     });
                 }, { root: null, threshold: 0.05 });
@@ -805,11 +818,36 @@
 
                 // Also initiate a slow background load after the page is fully loaded (low priority)
                 window.addEventListener('load', () => {
+                    siteLoaded = true;
                     // Start only if gallery not visible yet
                     setTimeout(() => {
-                        if(galleryLoadState === 'idle') progressiveLoadGallery();
+                        if(userReachedGallery){
+                            // User scrolled to gallery before page loaded - load immediately
+                            loadGalleryImages();
+                        } else if(galleryLoadState === 'idle') {
+                            // Background progressive load
+                            progressiveLoadGallery();
+                        }
+
+                        // Handle videos similarly: if user reached videos, load immediately, otherwise schedule background load
+                        if(userReachedVideos){
+                            loadVideos();
+                        } else {
+                            progressiveLoadVideos();
+                        }
                     }, 1200);
                 });
+
+                // Progressive background loader for videos (start after page load if user hasn't reached videos)
+                function progressiveLoadVideos(){
+                    // If user already reached videos, just load on demand
+                    if(userReachedVideos) return;
+                    if(window.requestIdleCallback){
+                        requestIdleCallback(() => { if(!userReachedVideos) loadVideos(); }, { timeout: 1200 });
+                    } else {
+                        setTimeout(() => { if(!userReachedVideos) loadVideos(); }, 1400);
+                    }
+                }
             }
 
             function appendVideoWrapper(video){
@@ -834,8 +872,12 @@
 
             if(videosGrid){
                 function loadVideos(){
+                    // Prevent duplicate loads
+                    if(videosLoadState === 'loading' || videosLoadState === 'loaded') return;
+                    videosLoadState = 'loading';
                     const maxReels = 8;
                     for(let i=1;i<=maxReels;i++){
+                        if(appendedVideos.has(i)) continue; // already appended
                         let appended = false;
                         const candidates = [`videos/short${i}.mp4`, `videos/Short${i}.mp4`, `videos/short${i}.webm`];
                         for(const src of candidates){
@@ -844,13 +886,30 @@
                             video.setAttribute('playsinline',''); video.loop = true; video.muted = true; video.preload = 'metadata';
                             const source = document.createElement('source'); source.src = src; source.type = 'video/mp4';
                             video.appendChild(source);
-                            video.onloadedmetadata = () => { if(!appended){ appended = true; appendVideoWrapper(video); } };
+                            video.onloadedmetadata = () => { if(!appended){ appended = true; appendedVideos.add(i); appendVideoWrapper(video); } };
                             try{ video.load(); }catch(e){}
                         }
                     }
+                    // mark loaded once all appended or after a timeout
+                    const checkDone = () => {
+                        if(appendedVideos.size >= maxReels){ videosLoadState = 'loaded'; }
+                        else { setTimeout(checkDone, 400); }
+                    };
+                    checkDone();
                 }
                 const videosObserver = new IntersectionObserver((entries, obs) => {
-                    entries.forEach(e => { if(e.isIntersecting){ loadVideos(); obs.unobserve(videosGrid); } });
+                    entries.forEach(e => {
+                        if(e.isIntersecting){
+                            userReachedVideos = true;
+                            if(siteLoaded){
+                                loadVideos();
+                                obs.unobserve(videosGrid);
+                            } else {
+                                // wait for page load then load (handled in load handler) and unobserve now
+                                obs.unobserve(videosGrid);
+                            }
+                        }
+                    });
                 }, { root: null, threshold: 0.05 });
                 videosObserver.observe(videosGrid);
             }
