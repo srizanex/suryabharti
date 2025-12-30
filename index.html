@@ -9,12 +9,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Load fonts non-blocking -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" onload="this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet"></noscript>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" onload="this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" rel="stylesheet"></noscript>
-    <!-- Preload hero image for faster LCP -->
     <link rel="preload" as="image" href="images/homeimage.png?v=20251228">
 
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -158,12 +156,12 @@
         }
 
         /* Lightbox Styles */
-        .lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
+        .lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
         .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
-        .lightbox-content { max-width: 1100px; width: 100%; max-height: 85vh; display:flex; align-items:center; justify-content:center; position: relative; padding: 20px; }
-        .lightbox-content img { display:block; max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); object-fit: contain; transition: transform 200ms ease, opacity 150ms ease; }
-        .lightbox-content img.fit-width { width: 95vw; height: auto; max-width: 1100px; }
-        .lightbox-content img.fit-height { height: 85vh; width: auto; max-height: 85vh; }
+        .lightbox-content { max-width: 1400px; width: 100%; max-height: 90vh; display:flex; align-items:center; justify-content:center; position: relative; padding: 20px; }
+        .lightbox-content img { display:block; max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); object-fit: contain; transition: transform 200ms ease, opacity 150ms ease; }
+        .lightbox-content img.fit-width { width: 95vw; height: auto; max-width: 1400px; }
+        .lightbox-content img.fit-height { height: 90vh; width: auto; max-height: 90vh; }
         .lightbox-close, .lightbox-nav { position: absolute; background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 10px; color: #fff; cursor: pointer; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.04); }
         .lightbox-close { right: 10px; top: 10px; font-size: 20px; line-height: 1; }
         .lightbox-nav { top: 50%; transform: translateY(-50%); font-size: 28px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
@@ -185,13 +183,19 @@
             .lightbox-nav.touch-area { display: flex; }
             .lightbox-content { max-height: 90vh; }
         }
+        
+        /* Instagram Embed Fixes */
+        iframe.instagram-media {
+            margin: 0 auto !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1) !important;
+        }
     </style> 
 </head>
 <body class="bg-bg-light text-slate-800 font-sans antialiased pb-20 md:pb-0 overflow-hidden">
 
     <div class="noise-overlay"></div>
 
-    <!-- UPDATED SPLASH SCREEN: Single Powerful Shloka -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-secondary flex flex-col items-center justify-center px-4 text-center transition-opacity duration-1000 ease-in-out">
         <div class="relative z-10 w-full">
             <div class="w-24 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent mx-auto mb-8"></div>
@@ -206,7 +210,6 @@
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-orange-500/10 blur-[100px] rounded-full pointer-events-none"></div>
     </div>
 
-    <!-- HEADER: Desktop -->
     <nav class="hidden md:block fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-white/20 top-0 transition-all duration-300" id="desktop-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
@@ -243,10 +246,8 @@
         </div>
     </nav>
 
-    <!-- HEADER: Mobile (Redesigned for Elegance) -->
     <div class="md:hidden fixed top-0 w-full z-40 bg-white/80 backdrop-blur-xl border-b border-white/50 h-[65px] flex items-center justify-between px-5 shadow-glass transition-transform duration-300" id="mobile-header">
          <div class="flex items-center gap-3">
-            <!-- Mobile Logo -->
             <div class="w-9 h-9 overflow-visible flex items-center justify-center relative">
                  <div class="absolute inset-0 bg-orange-100 rounded-full blur-md opacity-50"></div>
                  <img src="https://e7.pngegg.com/pngimages/812/49/png-clipart-quill-feather-pen-line-art-feather-ink-white-thumbnail.png" 
@@ -260,57 +261,46 @@
             </div>
          </div>
          
-         <!-- Minimal Action Button -->
          <a href="https://play.google.com/store/books/author?id=Surya+Bharti" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 shadow-sm hover:bg-slate-100 active:scale-95 transition-all">
              <i data-lucide="book" class="w-4 h-4"></i>
          </a>
     </div>
 
-    <!-- BOTTOM NAV: Mobile (Optimized) -->
     <div class="md:hidden fixed bottom-0 w-full z-[60] bg-white/95 backdrop-blur-lg border-t border-slate-100 h-[70px] flex items-center justify-around px-2 pb-safe shadow-[0_-5px_30px_rgba(0,0,0,0.03)]">
         <a href="#home" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 active transition-colors"><i data-lucide="home" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Home</span></a>
         <a href="#books-trigger" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="book-open" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Books</span></a>
         <a href="#about" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="user" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">About</span></a>
         <a href="#gallery" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="image" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Gallery</span></a>
-        <a href="#videos" class="mobile-nav-item flex flex-col items-center justify-center p-2 w-16 text-slate-400 transition-colors"><i data-lucide="play-circle" class="w-5 h-5 mb-1.5 stroke-[1.5]"></i><span class="text-[10px] font-medium tracking-wide">Watch</span></a>
     </div>
 
-    <!-- HERO SECTION: Redesigned for "Heart Touching" Mobile Experience -->
     <section id="home" class="min-h-screen flex items-center justify-center pt-[90px] pb-24 md:pt-20 md:pb-12 relative overflow-hidden bg-gradient-to-b from-white via-orange-50/30 to-white">
         
-        <!-- Decorative Background Elements -->
         <div class="absolute top-20 left-0 w-64 h-64 bg-orange-200/20 rounded-full blur-[80px] -z-10 animate-pulse-slow"></div>
         <div class="absolute bottom-20 right-0 w-72 h-72 bg-blue-100/30 rounded-full blur-[80px] -z-10 animate-pulse-slow" style="animation-delay: 2s;"></div>
         
         <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8 md:gap-16 items-center relative z-10 w-full">
             
-            <!-- Mobile Layout: Text First (Refined) -->
             <div class="text-center lg:text-left order-2 lg:order-1 flex flex-col items-center lg:items-start relative">
                 
-                <!-- Badge -->
                 <div class="fade-up-element inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-orange-100 text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-6 shadow-sm ring-1 ring-orange-50">
                     <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> Indian Author & Poet
                 </div>
 
-                <!-- Main Title with emotive typography -->
                 <h1 class="fade-up-element font-serif text-[2.75rem] md:text-7xl lg:text-8xl font-medium text-slate-900 leading-[1.15] mb-6 text-balanced drop-shadow-sm" style="transition-delay: 0.1s;">
                     Awakening <br>
                     <span class="italic font-light text-slate-800">the</span> 
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-600 italic font-bold relative inline-block">
                         Consciousness
-                        <!-- Small decorative underline -->
                         <svg class="absolute w-full h-2 -bottom-1 left-0 text-orange-300" viewBox="0 0 100 10" preserveAspectRatio="none">
                             <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="2" fill="none" />
                         </svg>
                     </span>
                 </h1>
 
-                <!-- Subtext -->
                 <p class="fade-up-element text-base md:text-xl text-slate-600 mb-8 max-w-md leading-relaxed text-balanced font-light" style="transition-delay: 0.2s;">
                     Challenging societal norms through the lens of ancient wisdom. Exploring mythology, philosophy, and the depth of the <span class="font-serif italic text-slate-800">human soul</span>.
                 </p>
 
-                <!-- CTAs -->
                 <div class="fade-up-element flex flex-col sm:flex-row gap-4 w-full sm:w-auto" style="transition-delay: 0.3s;">
                     <a href="#books-trigger" class="px-8 py-4 bg-slate-900 text-white rounded-full font-medium shadow-soft hover:shadow-xl hover:bg-primary transition-all active:scale-95 flex items-center justify-center gap-2 group w-full sm:w-auto">
                         Start Reading 
@@ -322,16 +312,12 @@
                 </div>
             </div>
             
-            <!-- Hero Image: Attractive & Soft -->
             <div class="fade-up-element relative h-[380px] md:h-[650px] flex items-center justify-center order-1 lg:order-2 w-full mt-2 lg:mt-0" style="transition-delay: 0s;">
                 <div id="hero-image-container" class="relative z-10 w-full h-full max-w-sm lg:max-w-none transition-transform duration-700 ease-out group mx-auto">
-                    <!-- Soft Inner Glow behind image -->
                     <div class="absolute inset-4 bg-gradient-to-t from-orange-200/50 to-transparent rounded-full blur-2xl -z-10 animate-pulse-slow"></div>
                     
                     <img id="hero-img" src="images/homeimage.png?v=20251228" alt="Surya Bharti poet and Author" class="object-contain w-full h-full img-zoom drop-shadow-2xl hero-img-mask md:mask-none" decoding="async" fetchpriority="high" loading="eager" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));">
                     
-                    <!-- Floating Quote Card (Mobile Only Enhancement) -->
-                    <!-- Moved down to -bottom-10 on mobile to clear the image -->
                     <div class="absolute -bottom-10 -right-2 md:bottom-10 md:-left-10 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-glass border border-white/40 max-w-[200px] transform rotate-2 animate-float-slow lg:block z-20">
                         <div class="text-orange-500 mb-1"><i data-lucide="feather" class="w-4 h-4"></i></div>
                         <p class="text-[10px] font-serif italic text-slate-800 leading-snug">
@@ -342,14 +328,12 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
         <div class="absolute bottom-24 md:bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce">
             <span class="text-[10px] uppercase tracking-widest text-slate-400">Scroll</span>
             <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
         </div>
     </section>
 
-    <!-- QUOTE SECTION (Cleaned up) -->
     <section class="py-16 md:py-24 bg-white text-center px-6 relative border-b border-gray-50">
         <div class="max-w-3xl mx-auto">
             <div class="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-50 text-primary"><i data-lucide="quote" class="w-5 h-5"></i></div>
@@ -364,14 +348,12 @@
         </div>
     </section>
 
-    <!-- BOOKS HORIZONTAL SCROLL (Unchanged structure, just ensuring smooth flow) -->
     <section id="books-trigger" class="bg-slate-50 text-slate-900 horizontal-section relative">
         <div class="absolute bottom-24 md:bottom-10 left-6 right-6 md:left-10 md:right-10 h-1 bg-slate-200 rounded-full overflow-hidden z-20 max-w-md pointer-events-none opacity-50 md:opacity-100">
             <div id="books-progress" class="h-full bg-primary w-0"></div>
         </div>
 
         <div class="horizontal-scroll-wrapper" id="books-wrapper">
-            <!-- Intro Text Card -->
             <div class="w-[80vw] md:w-[350px] flex-shrink-0 flex flex-col justify-center h-full pr-4 md:pr-10">
                 <p class="text-xl md:text-4xl text-slate-400 leading-tight font-serif italic relative">
                     Books represent<br> <span class="text-slate-800 font-bold not-italic">Reflections</span> of the self.
@@ -381,11 +363,10 @@
                 </div>
             </div>
 
-            <!-- BOOK 1 -->
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/NjHcLLZd/antimraahi.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/NjHcLLZd/antimraahi.jpg" alt="Antim Raahi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Philosophy</span>
@@ -396,11 +377,10 @@
                 </div>
             </div>
 
-            <!-- BOOK 2 -->
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/5ygwBxGT/kranti.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/5ygwBxGT/kranti.jpg" alt="Kranti" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-red-50 text-red-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Bestseller</span>
@@ -411,11 +391,10 @@
                 </div>
             </div>
 
-             <!-- BOOK 3 -->
-            <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
+             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/L60P20Mt/sitam.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/L60P20Mt/sitam.jpg" alt="Sitam" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Prose</span>
@@ -426,11 +405,10 @@
                 </div>
             </div>
 
-            <!-- BOOK 4 -->
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/QCdBrc44/Tara-Hindustan-Ka.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/QCdBrc44/Tara-Hindustan-Ka.jpg" alt="Tara Hindustan Ka" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Patriotic</span>
@@ -441,11 +419,10 @@
                 </div>
             </div>
 
-            <!-- BOOK 5 -->
             <div class="w-[85vw] md:w-[650px] flex-shrink-0 h-full flex items-center justify-center py-4">
                 <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-soft border border-white relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center w-full h-auto">
                     <div class="relative w-[50%] md:w-full mx-auto md:mx-0 shrink-0 shadow-lg rounded-lg overflow-hidden group">
-                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/tgGY4Kv7/krishnatva.jpg" alt="Surya Bharti poet and Author" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
+                        <div class="aspect-[2/3] bg-slate-100"><img src="https://i.postimg.cc/tgGY4Kv7/krishnatva.jpg" alt="Krishnatva" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"></div>
                     </div>
                     <div class="text-center md:text-left">
                         <span class="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase rounded-md mb-3 inline-block">Mythology</span>
@@ -460,7 +437,6 @@
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
     <section id="about" class="py-16 md:py-24 bg-white relative overflow-hidden border-t border-slate-50">
         <div class="absolute top-0 right-0 w-1/2 h-full bg-orange-50/30 -skew-x-12 transform translate-x-1/4 z-0"></div>
         <div class="max-w-7xl mx-auto px-6 relative z-10">
@@ -479,14 +455,13 @@
                     <div class="grid grid-cols-3 gap-4 mt-8 border-t border-gray-100 pt-6 items-center">
                         <div class="text-center md:text-left"><span class="block text-2xl font-serif font-bold text-slate-900">5</span><span class="text-[10px] text-slate-400 uppercase font-bold">Books</span></div>
                         <div class="text-center md:text-left"><span class="block text-2xl font-serif font-bold text-slate-900">1.7k+</span><span class="text-[10px] text-slate-400 uppercase font-bold">Verses</span></div>
-                         <div class="flex justify-center md:justify-start"><img src="https://signature.freefire-name.com/img.php?f=7&t=Surya%20Bharti" alt="Surya Bharti poet and Author" class="h-8 opacity-60" loading="lazy" decoding="async"></div>
+                         <div class="flex justify-center md:justify-start"><img src="https://signature.freefire-name.com/img.php?f=7&t=Surya%20Bharti" alt="Surya Bharti Signature" class="h-8 opacity-60" loading="lazy" decoding="async"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- POEMS SCROLL -->
     <section id="poems-trigger" class="bg-bg-paper text-slate-800 horizontal-section relative">
          <div class="absolute top-6 left-6 md:top-10 md:left-10 z-10 pointer-events-none mix-blend-multiply">
             <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 mb-2">Poetry</h2>
@@ -532,33 +507,20 @@
         </div>
     </section>
 
-    <!-- GALLERY -->
     <section id="gallery" class="py-16 md:py-24 bg-white border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4">
              <div class="text-center mb-12">
                 <h2 class="font-serif text-3xl md:text-4xl text-slate-900 mb-3">Visual Journey</h2>
                 <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+                <p class="text-xs text-slate-400 mt-2 uppercase tracking-widest">Moments frozen in time (4K)</p>
             </div>
             <div class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 px-2" id="gallery-masonry">
-                <!-- Images will be populated dynamically -->
-            </div>
+                </div>
         </div>
     </section>
 
-    <!-- VIDEOS -->
-    <section id="videos" class="py-16 md:py-24 bg-bg-off">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="font-serif text-3xl md:text-4xl text-slate-900 mb-3">Watch & Listen</h2>
-                <p class="text-slate-500 text-sm">Explore reels and discussions.</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 px-2" id="videos-grid">
-                <!-- Reels will be populated dynamically -->
-            </div>
-        </div>
-    </section>
+    <!-- Videos section removed -->
 
-    <!-- FOOTER -->
     <footer class="bg-slate-900 text-white py-12 border-t border-slate-800 pb-24 md:pb-12">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
@@ -581,29 +543,15 @@
     <script>
         lucide.createIcons();
 
-        // UPDATED SPLASH SCREEN LOGIC
+        // SPLASH SCREEN LOGIC
         window.addEventListener('load', () => {
             const tl = gsap.timeline();
             const splash = document.getElementById('splash-screen');
             const body = document.body;
 
-            // Animate Main Shloka
-            tl.to(".shloka-text", {
-                opacity: 1,
-                scale: 1,
-                duration: 1.5,
-                ease: "power3.out"
-            })
-            // Animate Subtext
-            .to(".shloka-sub", {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power2.out"
-            }, "-=1")
-            // Hold
+            tl.to(".shloka-text", { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" })
+            .to(".shloka-sub", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=1")
             .to({}, { duration: 1.2 })
-            // Exit
             .to(splash, {
                 opacity: 0,
                 duration: 0.8,
@@ -611,12 +559,8 @@
                 onComplete: () => {
                     splash.style.display = 'none';
                     body.classList.remove('overflow-hidden');
-                    
-                    // Trigger Hero Animations after splash
                     document.querySelectorAll('.fade-up-element').forEach((el, index) => {
-                        setTimeout(() => {
-                            el.classList.add('visible');
-                        }, 100 + (index * 150));
+                        setTimeout(() => { el.classList.add('visible'); }, 100 + (index * 150));
                     });
                 }
             });
@@ -628,10 +572,8 @@
 
         // --- UNIFIED SCROLL ANIMATIONS ---
         function initAnimations() {
-            // BOOKS SECTION
             const booksSection = document.getElementById("books-trigger");
             const booksWrapper = document.getElementById("books-wrapper");
-            
             function getScrollAmount(wrapper) { return -(wrapper.scrollWidth - window.innerWidth); }
 
             const booksTween = gsap.to(booksWrapper, {
@@ -642,15 +584,12 @@
                     start: "top top",
                     end: () => "+=" + (booksWrapper.scrollWidth - window.innerWidth),
                     pin: true,
-                    scrub: window.innerWidth < 768 ? 0.3 : 1, // Faster reaction on mobile
+                    scrub: window.innerWidth < 768 ? 0.3 : 1,
                     invalidateOnRefresh: true,
-                    onUpdate: (self) => {
-                         gsap.to("#books-progress", { width: self.progress * 100 + "%", duration: 0.1 });
-                    }
+                    onUpdate: (self) => { gsap.to("#books-progress", { width: self.progress * 100 + "%", duration: 0.1 }); }
                 }
             });
 
-            // POEMS SECTION
             const poemsSection = document.getElementById("poems-trigger");
             const poemsWrapper = document.getElementById("poems-wrapper");
             gsap.to(poemsWrapper, {
@@ -666,9 +605,7 @@
                 }
             });
         }
-        
-        // Init
-        setTimeout(initAnimations, 100); // Slight delay ensures layout is ready
+        setTimeout(initAnimations, 100);
 
         // Mobile Nav Logic
         const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
@@ -679,20 +616,17 @@
             });
         });
         
-        // Header Scroll Effect (Mobile & Desktop)
+        // Header Scroll
         let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
             const mobileHeader = document.getElementById('mobile-header');
             const desktopNav = document.getElementById('desktop-nav');
-            
             if (currentScroll > 50) {
                  if (currentScroll > lastScroll) {
-                    // Scrolling Down - Hide
                     if(mobileHeader) mobileHeader.style.transform = 'translateY(-100%)';
                     if(desktopNav) desktopNav.style.transform = 'translateY(-100%)';
                  } else {
-                    // Scrolling Up - Show
                     if(mobileHeader) mobileHeader.style.transform = 'translateY(0)';
                     if(desktopNav) desktopNav.style.transform = 'translateY(0)';
                  }
@@ -703,112 +637,80 @@
             lastScroll = currentScroll;
         });
 
-        // Video Player Logic
-        document.querySelectorAll('.reel-video').forEach(v => {
-            v.parentElement.addEventListener('click', () => {
-                if (v.paused) {
-                    v.muted = false; v.play(); v.parentElement.querySelector('i').parentElement.style.opacity = '0';
-                } else {
-                    v.pause(); v.parentElement.querySelector('i').parentElement.style.opacity = '1';
-                }
-            });
-        });
-
-        // Cache Buster removed to allow browser caching and improve load times.
-
         // Dynamic gallery and reels
         (function(){
             const gallery = document.getElementById('gallery-masonry');
-            const videosGrid = document.getElementById('videos-grid');
+            let siteLoaded = false; 
+            let userReachedGallery = false; 
 
-            // Loading state flags
-            let siteLoaded = false; // becomes true on window.load
-            let userReachedGallery = false; // true if user scrolls to gallery before load
-            let userReachedVideos = false; // true if user scrolls to videos before load
-            // Video loading guards
-            let videosLoadState = 'idle'; // 'idle' | 'loading' | 'loaded'
-            const appendedVideos = new Set(); // indexes of videos already appended
+            // -------------------------------------------------------------
+            // INSTRUCTIONS FOR USER:
+            // PASTE YOUR BLOGSPOT IMAGE LINKS HERE INSIDE THE QUOTES
+            // Right Click Image -> "Copy Image Address" -> Paste below.
+            // -------------------------------------------------------------
+            const blogImages = [
+               // Example Placeholders (Replace these with your actual blog URLs):
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwU4mjyx4QpcmZDqG38YqTMbeVarX1Z86_J58Yk7ow3RcYPq6W0rLmotlRRgg9OKTAxVqE0XL3M0LsLzpz4PGW5q3Y0Lui5NN1rNgHvmgQyp0JxW5Whn1lBcBEPjGFTtkEnUfAF7HMo7mTHP8vroXzUecmXt5q80LCFPi4px5yRu88tz-GeftY4fk8LgAz/s1600/images4.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjHomNJ_bH0M2kjptI6rcYWCRwwbOFsPTC_g5_Ram62O7F11DGExOh4BmYD2CRrGyieIs7IbqPOL_uLWr1oE4sJ94fJO3jl50ahiBMduttru7_F3te5i4OuJ9foMfSOefVogOC14-fSXacdW1xPKbMPGUw22VsNd5M1aC-Av3W2GyNnT66MJ4AR1PNIsiKm/s1600/images3.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhwzOy6RYrfDSqdeBcehRkpuyCpQAHlAeMDdTO4T7VKqkTGr4qQfwA-AGYT-ZDgrozvMBL4yMHz8mhDTzoxzsotCslrxDSJoBJqyxa3id1PjKbWhf1Gc5uw7-S09bYn-jPz5ddAvWlJF4jtNggld_l4K2lKvlOxTaVQMJWJ4DiV8GjJiyQiViDUY0xzDZam/s1600/images2.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6y1vl6QGnFOZFAl3WVH9d3X5XQ8id4WGaD1aEUMKAlMJdGHJ1xn516py9EuLe3VH0OzP6FZYZ6KiXBNnbWe5nDO79quhmKyZ_cVgJmCCuw2kaj2TcITN1ElihdS1in1Y1_vj-QfyNaM-W3ExSBIzcQWgNZdLEzLjF7NyPqItehTS7K0nPHoNL8nBCfRza/s320/image13.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrUkBeSMG58r0eOU7waMD0escwLDviNy6EJvuh9dYxbGbdvZ_SQMdE2_XKyX8rOnwW1IlV0dRkm8Gxe3nhdW0vaWFUBrtUJIXusQ_AFBZ6R-m1nSb6LtnhmjCVcAhyphenhyphenJd-T_NUajR_b5OJSAoUafT8VUDLyNHriu-tW7Hn4-Pw7Ujbdjt7YR4sXcu5M-1Et/s320/image12.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhTdxRA7dwzd7M62iE5KKjocyUrKT-eJoUwLQ27zVIK0lxfhWUAFKS-oMcetLJWjpGrL7wWGh1EFrW7htz85LiabszpG0734uLzuSsGqG3F8d9VdQINErfF4NaKkag369Y-jvLv1nd-D2ZV8OdUQVjrj67eJxdrtZJqEgPudjV3yHJZgSlapCcy-UZVHM-E/s320/image11.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKtaL9nCQ35MzfBJfFE8Q2BrZDDLP0e51l3dA0vOYg-04AU9AY2QI3CJ8ZrvJnP5Pp_MlDr_mnkECXUkGIdtR4KFZjbUxv_5IayCj6Y42T7bzbZbeMAqWVU6J_NheHYj_TLXEeST9fLUAABm1putdmtvkA7nKH1CIt3yVW4ooCppqb9ymaJfZ_A6crYgYx/s320/image10.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiIRbz2xbKn4dZ_UYfrFiR-B5ChOAbOBkrqRxctEhiNxz9075a27txUA7tNOmWJmOTGg_3h4Nssf2E0nGCfmssiZGTaR6fmuNV_b9qOZsttgBOGu-0_ezGrU0KdlEpC6xG29W37hQsgGouraoRyLd8L6k13-Jh8jNeXy01sSHC58SCseWGOOhqHnEnnejKv/s320/image9.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVbPGo9ODVPo2v0mN-EqYAPAbHvX89KdQubX0LbaSg4z8YZX9XoRP83MR0DzUKhlHTaNJ7h5ZxKT7XqPG2wXgGAdZEZ0aSL4zv62LXlzpGGsXBynPvk_enpGkQtAcQVy-jgbc3RR6rWBaSOAPuDwfnKhjsPSFHetZ0oGg6xWak0ZiSvCE51Cygw3zaoDI8/s320/image8.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEih97n5ukrUtb2fDVVr-zH_CEWaKNy5F6AOBYtE9HImFMjlKzpCKY3xKSBYuhdtJ4IDy8r0aIF3s8ZuN7mR-CUHnGaHEpIU8l5CDD66YWnS99ehMAZ1IqnLZSq8riDsqZFSK-MZ1FClpWidf1H6DoVjdylFfb1ST896AkDVlnvOdSOlTSLNkNXlj68FZ9qX/s320/image7.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPg6Op40iRYMnyjJmSOQsYJQEwmNYlYug3T0c2jCUPDqBHjHY8F8-pdOqSDfOlXGZ8Sq5IW-oJzn794YCQ2yuo2JX-re_UaF6X2iSN5z8jXBvFHgzGZkRUC4evCat0mlv27qtJo9EHCkonZKc_ES7FmQCaYDeE_Nc5AYrO9vm5R3tGVZZFWc9iid9K8npn/s320/image5.jpg",
+               "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQqCi5bcVecjJIjcarU6Gq5lzMf6-i0j91yi67Nti6K6lSpRbuoe-YHE-107qfzfeBilH_Osf7RYRm2VYa243CY0Wc2nrq-qw8xoKiXUNQfd3PENNlrGI0JhrAPPkqGUU9V8zXxU6nDyRLNu2Pz9f1IwNIPkNQvdq1pv4rHg_NgvMjntphze5Uq9vIxRqi/s320/image6.jpg",
+               // Paste more links below like this: "https://...jpg",
+            ];
 
             function appendImage(src){
                 const div = document.createElement('div');
                 div.className = 'break-inside-avoid rounded-lg overflow-hidden shadow-sm group relative mb-4';
                 const img = document.createElement('img');
-                img.src = src; img.alt = "Surya Bharti poet and Author"; img.loading = 'lazy'; img.className = 'w-full object-cover group-hover:scale-105 transition-transform duration-700';
+                
+                // FORCE 4K/FULL RESOLUTION:
+                // Google Images typically use /s320/ or /s1600/ or /w... in the URL.
+                // We replace that pattern with /s0/ (which means original size/max quality).
+                let highResSrc = src.replace(/\/s\d+\//, '/s0/'); // replaces /s320/ etc with /s0/
+                
+                img.src = highResSrc; 
+                img.alt = "Surya Bharti poet and Author"; 
+                img.loading = 'lazy'; 
+                img.className = 'w-full object-cover group-hover:scale-105 transition-transform duration-700';
                 div.appendChild(img);
                 gallery.appendChild(div);
             }
 
             if(gallery){
-                const added = new Set();
-                const maxImages = 20;
-
-                function probeCandidates(candidates, onFound, onMissing){
-                    let resolved = false; let errors = 0;
-                    candidates.forEach(src => {
-                        if(added.has(src)) { resolved = true; onFound(src); return; }
-                        const img = new Image();
-                        img.alt = "Surya Bharti poet and Author";
-                        img.onload = () => { if(!resolved){ resolved = true; added.add(src); onFound(src); } };
-                        img.onerror = () => { errors++; if(errors === candidates.length && !resolved){ onMissing(); } };
-                        img.src = src;
-                    });
-                }
-
-                // State for gallery loading
-                let galleryLoadState = 'idle'; // 'idle' | 'loading' | 'loaded' | 'background-loading'
+                let galleryLoadState = 'idle';
 
                 function loadGalleryImages(){
                     if(galleryLoadState === 'loading' || galleryLoadState === 'loaded') return;
                     galleryLoadState = 'loading';
-                    for(let i=1;i<=maxImages;i++){
-                        const candidates = [
-                            `images/images${i}.webp`, `images/image${i}.webp`,
-                            `images/images${i}.jpg`, `images/image${i}.jpg`,
-                            `images/images${i}.jpeg`, `images/image${i}.jpeg`,
-                            `images/images${i}.png`, `images/image${i}.png`
-                        ];
-                        probeCandidates(candidates, (src)=>{ appendImage(src); }, ()=>{});
+                    
+                    // Simple Loop through the provided list
+                    if(blogImages.length > 0) {
+                        blogImages.forEach(src => {
+                            appendImage(src);
+                        });
+                    } else {
+                        // Fallback message if list is empty
+                        gallery.innerHTML = '<p class="text-sm text-gray-400 text-center w-full col-span-full">No images found in list.</p>';
                     }
+                    
                     galleryLoadState = 'loaded';
                 }
 
-                // Progressive background loader: low priority, staggered using requestIdleCallback or timeout
-                function progressiveLoadGallery(){
-                    if(galleryLoadState !== 'idle') return; // don't start if user already triggered load
-                    galleryLoadState = 'background-loading';
-                    let i = 1;
-                    const step = () => {
-                        if(galleryLoadState !== 'background-loading') return; // cancelled if user scrolled
-                        if(i>maxImages){ galleryLoadState = 'loaded'; return; }
-                        const candidates = [
-                            `images/images${i}.webp`, `images/image${i}.webp`,
-                            `images/images${i}.jpg`, `images/image${i}.jpg`,
-                            `images/images${i}.jpeg`, `images/image${i}.jpeg`,
-                            `images/images${i}.png`, `images/image${i}.png`
-                        ];
-                        probeCandidates(candidates, (src)=>{ appendImage(src); }, ()=>{});
-                        i++;
-                        if(window.requestIdleCallback){
-                            requestIdleCallback(step, {timeout: 500});
-                        } else {
-                            setTimeout(step, 350);
-                        }
-                    };
-                    // start little later after load to avoid impacting LCP
-                    setTimeout(() => { if(galleryLoadState === 'background-loading') step(); }, 1000);
-                }
-
-                // Only load gallery images when user scrolls to the gallery (saves initial requests)
                 const galleryObserver = new IntersectionObserver((entries, obs) => {
                     entries.forEach(e => {
                         if(e.isIntersecting){
-                            // Mark that user reached gallery. If page already loaded, load immediately; otherwise wait for load.
                             userReachedGallery = true;
                             if(siteLoaded){
                                 loadGalleryImages();
                                 obs.unobserve(gallery);
                             } else {
-                                // still unobserve to avoid duplicate triggers; we'll handle on load
                                 obs.unobserve(gallery);
                             }
                         }
@@ -816,112 +718,24 @@
                 }, { root: null, threshold: 0.05 });
                 galleryObserver.observe(gallery);
 
-                // Also initiate a slow background load after the page is fully loaded (low priority)
                 window.addEventListener('load', () => {
                     siteLoaded = true;
-                    // Start only if gallery not visible yet
                     setTimeout(() => {
                         if(userReachedGallery){
-                            // User scrolled to gallery before page loaded - load immediately
                             loadGalleryImages();
                         } else if(galleryLoadState === 'idle') {
-                            // Background progressive load
-                            progressiveLoadGallery();
-                        }
-
-                        // Handle videos similarly: if user reached videos, load immediately, otherwise schedule background load
-                        if(userReachedVideos){
-                            loadVideos();
-                        } else {
-                            progressiveLoadVideos();
+                            loadGalleryImages(); // Preload if idle
                         }
                     }, 1200);
                 });
-
-                // Progressive background loader for videos (start after page load if user hasn't reached videos)
-                function progressiveLoadVideos(){
-                    // If user already reached videos, just load on demand
-                    if(userReachedVideos) return;
-                    if(window.requestIdleCallback){
-                        requestIdleCallback(() => { if(!userReachedVideos) loadVideos(); }, { timeout: 1200 });
-                    } else {
-                        setTimeout(() => { if(!userReachedVideos) loadVideos(); }, 1400);
-                    }
-                }
             }
 
-            function appendVideoWrapper(video){
-                const wrapper = document.createElement('div');
-                wrapper.className = 'group cursor-pointer relative rounded-xl overflow-hidden shadow-sm aspect-[9/16] bg-slate-900';
-                video.className = 'reel-video w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity';
-                wrapper.appendChild(video);
-
-                const overlay = document.createElement('div');
-                overlay.className = 'absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300';
-                overlay.innerHTML = '<div class="w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center"><i data-lucide="play" class="w-4 h-4 text-white fill-white"></i></div>';
-                wrapper.appendChild(overlay);
-
-                wrapper.addEventListener('click', () => {
-                    if(video.paused){ video.muted = false; video.play(); overlay.style.opacity = '0'; }
-                    else { video.pause(); overlay.style.opacity = '1'; video.muted = true; }
-                });
-
-                videosGrid.appendChild(wrapper);
-                lucide.createIcons();
-            }
-
-            if(videosGrid){
-                function loadVideos(){
-                    // Prevent duplicate loads
-                    if(videosLoadState === 'loading' || videosLoadState === 'loaded') return;
-                    videosLoadState = 'loading';
-                    const maxReels = 8;
-                    for(let i=1;i<=maxReels;i++){
-                        if(appendedVideos.has(i)) continue; // already appended
-                        let appended = false;
-                        const candidates = [`videos/short${i}.mp4`, `videos/Short${i}.mp4`, `videos/short${i}.webm`];
-                        for(const src of candidates){
-                            if(appended) break;
-                            const video = document.createElement('video');
-                            video.setAttribute('playsinline',''); video.loop = true; video.muted = true; video.preload = 'metadata';
-                            const source = document.createElement('source'); source.src = src; source.type = 'video/mp4';
-                            video.appendChild(source);
-                            video.onloadedmetadata = () => { if(!appended){ appended = true; appendedVideos.add(i); appendVideoWrapper(video); } };
-                            try{ video.load(); }catch(e){}
-                        }
-                    }
-                    // mark loaded once all appended or after a timeout
-                    const checkDone = () => {
-                        if(appendedVideos.size >= maxReels){ videosLoadState = 'loaded'; }
-                        else { setTimeout(checkDone, 400); }
-                    };
-                    checkDone();
-                }
-                const videosObserver = new IntersectionObserver((entries, obs) => {
-                    entries.forEach(e => {
-                        if(e.isIntersecting){
-                            userReachedVideos = true;
-                            if(siteLoaded){
-                                loadVideos();
-                                obs.unobserve(videosGrid);
-                            } else {
-                                // wait for page load then load (handled in load handler) and unobserve now
-                                obs.unobserve(videosGrid);
-                            }
-                        }
-                    });
-                }, { root: null, threshold: 0.05 });
-                videosObserver.observe(videosGrid);
-            }
-
-            // Lightbox (fullscreen viewer) for gallery images
+            // Lightbox
             (function(){
                 let currentIndex = 0;
-
-                // Create overlay
                 const lightboxOverlay = document.createElement('div');
                 lightboxOverlay.className = 'lightbox-overlay';
-                lightboxOverlay.innerHTML = '<div class="lightbox-content"><button class="lightbox-close" aria-label="Close">&times;</button><button class="lightbox-nav prev" aria-label="Previous">&#10094;</button><button class="lightbox-nav next" aria-label="Next">&#10095;</button><img src="" alt="Surya Bharti poet and Author"></div>';
+                lightboxOverlay.innerHTML = '<div class="lightbox-content"><button class="lightbox-close" aria-label="Close">&times;</button><button class="lightbox-nav prev" aria-label="Previous">&#10094;</button><button class="lightbox-nav next" aria-label="Next">&#10095;</button><img src="" alt="Gallery Image"></div>';
                 document.body.appendChild(lightboxOverlay);
 
                 const lbImg = lightboxOverlay.querySelector('img');
@@ -929,39 +743,22 @@
                 const lbPrev = lightboxOverlay.querySelector('.lightbox-nav.prev');
                 const lbNext = lightboxOverlay.querySelector('.lightbox-nav.next');
 
-                // Create large touch areas for mobile navigation (prev/next)
-                const prevTouchArea = document.createElement('button'); prevTouchArea.className = 'lightbox-nav prev touch-area'; prevTouchArea.setAttribute('aria-hidden','true');
-                const nextTouchArea = document.createElement('button'); nextTouchArea.className = 'lightbox-nav next touch-area'; nextTouchArea.setAttribute('aria-hidden','true');
+                const prevTouchArea = document.createElement('button'); prevTouchArea.className = 'lightbox-nav prev touch-area'; 
+                const nextTouchArea = document.createElement('button'); nextTouchArea.className = 'lightbox-nav next touch-area'; 
                 lightboxOverlay.querySelector('.lightbox-content').appendChild(prevTouchArea);
                 lightboxOverlay.querySelector('.lightbox-content').appendChild(nextTouchArea);
 
-                // Touch/swipe variables
                 let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
-
-                function onTouchStart(e){
-                    if(e.touches && e.touches.length === 1){
-                        touchStartX = e.touches[0].clientX;
-                        touchStartY = e.touches[0].clientY;
-                        touchStartTime = Date.now();
-                    }
-                }
-
+                function onTouchStart(e){ if(e.touches && e.touches.length === 1){ touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; touchStartTime = Date.now(); } }
                 function onTouchEnd(e){
                     if(!e.changedTouches || e.changedTouches.length !== 1) return;
                     const dx = e.changedTouches[0].clientX - touchStartX;
                     const dy = e.changedTouches[0].clientY - touchStartY;
-                    const dt = Date.now() - touchStartTime;
-                    // Horizontal swipe
-                    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
-                        if(dx > 0) navigate(-1); else navigate(1);
-                    }
+                    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){ if(dx > 0) navigate(-1); else navigate(1); }
                 }
 
-                // Click handlers for touch areas
                 prevTouchArea.addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
                 nextTouchArea.addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
-
-                // Attach touch handlers
                 lightboxOverlay.addEventListener('touchstart', onTouchStart, { passive: true });
                 lightboxOverlay.addEventListener('touchend', onTouchEnd, { passive: true });
 
@@ -972,35 +769,23 @@
                     const vw = Math.max(320, window.innerWidth - 160);
                     const vh = Math.max(240, window.innerHeight - 160);
                     if(iw === 0 || ih === 0) { lbImg.classList.add('fit-width'); return; }
-                    if((iw/ih) > (vw/vh)){
-                        lbImg.classList.add('fit-width');
-                    } else {
-                        lbImg.classList.add('fit-height');
-                    }
+                    if((iw/ih) > (vw/vh)){ lbImg.classList.add('fit-width'); } else { lbImg.classList.add('fit-height'); }
                 }
-
                 function openLightbox(src){
                     const imgs = Array.from(document.querySelectorAll('#gallery-masonry img'));
-                    currentIndex = imgs.findIndex(i => i.src.split('?')[0] === src.split('?')[0] || i.src === src);
-                    if(currentIndex === -1){ // fallback
-                        imgs.push({ src });
-                        currentIndex = imgs.length - 1;
-                    }
+                    currentIndex = imgs.findIndex(i => i.src === src);
+                    if(currentIndex === -1){ imgs.push({ src }); currentIndex = imgs.length - 1; }
                     lbImg.classList.remove('fit-width','fit-height');
                     lbImg.onload = () => { fitByDimension(); };
-                    lbImg.src = imgs[currentIndex].src;
-                    lbImg.alt = 'Surya Bharti poet and Author';
+                    lbImg.src = src;
                     document.body.style.overflow = 'hidden';
                     lightboxOverlay.classList.add('open');
                 }
-
                 function closeLightbox(){
                     lightboxOverlay.classList.remove('open');
                     lbImg.src = '';
-                    lbImg.classList.remove('fit-width','fit-height');
                     document.body.style.overflow = '';
                 }
-
                 function navigate(dir){
                     const imgs = Array.from(document.querySelectorAll('#gallery-masonry img'));
                     if(imgs.length === 0) return;
@@ -1010,23 +795,17 @@
                     lbImg.src = imgs[currentIndex].src;
                 }
 
-                // Delegated click on gallery
                 if(gallery){
                     gallery.addEventListener('click', (e) => {
                         const img = e.target.closest('img');
-                        if(img && gallery.contains(img)){
-                            openLightbox(img.src);
-                        }
+                        if(img && gallery.contains(img)){ openLightbox(img.src); }
                     });
                 }
-
                 lbClose.addEventListener('click', closeLightbox);
                 lightboxOverlay.addEventListener('click', (e) => { if(e.target === lightboxOverlay) closeLightbox(); });
                 lbPrev.addEventListener('click', () => navigate(-1));
                 lbNext.addEventListener('click', () => navigate(1));
-
                 window.addEventListener('resize', () => { if(lightboxOverlay.classList.contains('open')) fitByDimension(); });
-
                 document.addEventListener('keydown', (e) => {
                     if(!lightboxOverlay.classList.contains('open')) return;
                     if(e.key === 'Escape') closeLightbox();
@@ -1038,7 +817,3 @@
     </script>
 </body>
 </html>
-
-
-
-
