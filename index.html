@@ -7,13 +7,16 @@
     <meta name="description" content="Surya Bharti - Author, Thinker, and Poet.">
     <title>Surya Bharti | Author & Thinker</title>
     
+    <!-- Optimized Fonts Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" onload="this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet"></noscript>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" onload="this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Gotu&family=Rozha+One&display=swap" rel="stylesheet"></noscript>
-    <link rel="preload" as="image" href="images/homeimage.png?v=20251228">
+    
+    <!-- Preload Hero Image for Speed -->
+    <link rel="preload" as="image" href="images/homeimage.png?v=20251228" fetchpriority="high">
 
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -117,14 +120,6 @@
         }
         .text-balanced { text-wrap: balance; }
 
-        /* Shloka Text Styling */
-        .shloka-text {
-            font-family: 'Rozha One', serif;
-            opacity: 0;
-            transform: scale(0.95);
-            text-shadow: 0 0 30px rgba(234, 88, 12, 0.4);
-        }
-        
         /* Floating Animation for Logo */
         @keyframes floatPen {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -144,11 +139,12 @@
             -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
 
-        /* Fade Up Animation Class */
+        /* Fade Up Animation Class - Optimized for quick entry */
         .fade-up-element {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
         }
         .fade-up-element.visible {
             opacity: 1;
@@ -167,15 +163,10 @@
         .lightbox-nav { top: 50%; transform: translateY(-50%); font-size: 28px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
         .lightbox-nav.prev { left: 10px; }
         .lightbox-nav.next { right: 10px; }
-
-        /* Touch navigation areas for mobile: large invisible hotspots for swipe/click */
         .lightbox-nav.touch-area { display: none; position: absolute; top: 0; bottom: 0; width: 40%; height: 100%; background: rgba(255,255,255,0.02); border-radius: 0; padding: 0; align-items: center; justify-content: center; }
         .lightbox-nav.touch-area.prev { left: 0; }
         .lightbox-nav.touch-area.next { right: 0; }
-
-        /* Allow overlay to capture touch gestures */
         .lightbox-overlay { touch-action: none; }
-
         @media (max-width: 768px) {
             .lightbox-nav { font-size: 22px; width: 44px; height: 44px; }
             .lightbox-content { padding: 12px; }
@@ -183,32 +174,12 @@
             .lightbox-nav.touch-area { display: flex; }
             .lightbox-content { max-height: 90vh; }
         }
-        
-        /* Instagram Embed Fixes */
-        iframe.instagram-media {
-            margin: 0 auto !important;
-            border-radius: 12px !important;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1) !important;
-        }
     </style> 
 </head>
-<body class="bg-bg-light text-slate-800 font-sans antialiased pb-20 md:pb-0 overflow-hidden">
+<body class="bg-bg-light text-slate-800 font-sans antialiased pb-20 md:pb-0">
 
     <div class="noise-overlay"></div>
-
-    <div id="splash-screen" class="fixed inset-0 z-[100] bg-secondary flex flex-col items-center justify-center px-4 text-center transition-opacity duration-1000 ease-in-out">
-        <div class="relative z-10 w-full">
-            <div class="w-24 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent mx-auto mb-8"></div>
-            <h1 class="shloka-text text-4xl md:text-7xl text-orange-50 leading-tight">
-                ॐ तमसो मा ज्योतिर्गमय
-            </h1>
-            <p class="shloka-sub text-slate-400 text-sm md:text-base mt-4 font-sans tracking-[0.2em] uppercase opacity-0 transform translate-y-4">
-                From Darkness to Light
-            </p>
-            <div class="w-24 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent mx-auto mt-8"></div>
-        </div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-orange-500/10 blur-[100px] rounded-full pointer-events-none"></div>
-    </div>
+    <!-- NO SPLASH SCREEN - Direct Content -->
 
     <nav class="hidden md:block fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-white/20 top-0 transition-all duration-300" id="desktop-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -315,8 +286,8 @@
             <div class="fade-up-element relative h-[380px] md:h-[650px] flex items-center justify-center order-1 lg:order-2 w-full mt-2 lg:mt-0" style="transition-delay: 0s;">
                 <div id="hero-image-container" class="relative z-10 w-full h-full max-w-sm lg:max-w-none transition-transform duration-700 ease-out group mx-auto">
                     <div class="absolute inset-4 bg-gradient-to-t from-orange-200/50 to-transparent rounded-full blur-2xl -z-10 animate-pulse-slow"></div>
-                    
-                    <img id="hero-img" src="images/homeimage.png?v=20251228" alt="Surya Bharti poet and Author" class="object-contain w-full h-full img-zoom drop-shadow-2xl hero-img-mask md:mask-none" decoding="async" fetchpriority="high" loading="eager" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));">
+                    <!-- HIGH PRIORITY LOAD FOR HERO IMAGE -->
+                    <img id="hero-img" src="images/homeimage.png?v=20251228" alt="Surya Bharti poet and Author" class="object-contain w-full h-full img-zoom drop-shadow-2xl hero-img-mask md:mask-none" decoding="sync" fetchpriority="high" loading="eager" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));">
                     
                     <div class="absolute -bottom-10 -right-2 md:bottom-10 md:-left-10 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-glass border border-white/40 max-w-[200px] transform rotate-2 animate-float-slow lg:block z-20">
                         <div class="text-orange-500 mb-1"><i data-lucide="feather" class="w-4 h-4"></i></div>
@@ -543,26 +514,11 @@
     <script>
         lucide.createIcons();
 
-        // SPLASH SCREEN LOGIC
-        window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            const splash = document.getElementById('splash-screen');
-            const body = document.body;
-
-            tl.to(".shloka-text", { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" })
-            .to(".shloka-sub", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=1")
-            .to({}, { duration: 1.2 })
-            .to(splash, {
-                opacity: 0,
-                duration: 0.8,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    splash.style.display = 'none';
-                    body.classList.remove('overflow-hidden');
-                    document.querySelectorAll('.fade-up-element').forEach((el, index) => {
-                        setTimeout(() => { el.classList.add('visible'); }, 100 + (index * 150));
-                    });
-                }
+        // INSTANT ENTRY ANIMATION (No Splash)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Immediately reveal content with stagger
+            document.querySelectorAll('.fade-up-element').forEach((el, index) => {
+                setTimeout(() => { el.classList.add('visible'); }, index * 100);
             });
         });
 
@@ -641,7 +597,6 @@
         (function(){
             const gallery = document.getElementById('gallery-masonry');
             let siteLoaded = false; 
-            let userReachedGallery = false; 
 
             // -------------------------------------------------------------
             // INSTRUCTIONS FOR USER:
@@ -678,59 +633,45 @@
                 img.src = highResSrc; 
                 img.alt = "Surya Bharti poet and Author"; 
                 img.loading = 'lazy'; 
+                img.decoding = 'async'; // Faster UI unblocking
                 img.className = 'w-full object-cover group-hover:scale-105 transition-transform duration-700';
                 div.appendChild(img);
                 gallery.appendChild(div);
             }
 
             if(gallery){
-                let galleryLoadState = 'idle';
-
+                // Fast load logic - No delays
                 function loadGalleryImages(){
-                    if(galleryLoadState === 'loading' || galleryLoadState === 'loaded') return;
-                    galleryLoadState = 'loading';
+                    if(gallery.dataset.loaded) return;
+                    gallery.dataset.loaded = "true";
                     
-                    // Simple Loop through the provided list
                     if(blogImages.length > 0) {
                         blogImages.forEach(src => {
                             appendImage(src);
                         });
                     } else {
-                        // Fallback message if list is empty
                         gallery.innerHTML = '<p class="text-sm text-gray-400 text-center w-full col-span-full">No images found in list.</p>';
                     }
-                    
-                    galleryLoadState = 'loaded';
                 }
 
+                // Load immediately if user scrolls near or on large screens
                 const galleryObserver = new IntersectionObserver((entries, obs) => {
                     entries.forEach(e => {
                         if(e.isIntersecting){
-                            userReachedGallery = true;
-                            if(siteLoaded){
-                                loadGalleryImages();
-                                obs.unobserve(gallery);
-                            } else {
-                                obs.unobserve(gallery);
-                            }
+                            loadGalleryImages();
+                            obs.disconnect();
                         }
                     });
-                }, { root: null, threshold: 0.05 });
+                }, { root: null, rootMargin: "200px" }); // Load 200px before reaching
                 galleryObserver.observe(gallery);
-
-                window.addEventListener('load', () => {
-                    siteLoaded = true;
-                    setTimeout(() => {
-                        if(userReachedGallery){
-                            loadGalleryImages();
-                        } else if(galleryLoadState === 'idle') {
-                            loadGalleryImages(); // Preload if idle
-                        }
-                    }, 1200);
-                });
+                
+                // Also trigger shortly after load just in case
+                setTimeout(() => {
+                   loadGalleryImages(); 
+                }, 500); 
             }
 
-            // Lightbox
+            // Lightbox logic (unchanged but ensured functionality)
             (function(){
                 let currentIndex = 0;
                 const lightboxOverlay = document.createElement('div');
@@ -748,8 +689,8 @@
                 lightboxOverlay.querySelector('.lightbox-content').appendChild(prevTouchArea);
                 lightboxOverlay.querySelector('.lightbox-content').appendChild(nextTouchArea);
 
-                let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
-                function onTouchStart(e){ if(e.touches && e.touches.length === 1){ touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; touchStartTime = Date.now(); } }
+                let touchStartX = 0, touchStartY = 0;
+                function onTouchStart(e){ if(e.touches && e.touches.length === 1){ touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; } }
                 function onTouchEnd(e){
                     if(!e.changedTouches || e.changedTouches.length !== 1) return;
                     const dx = e.changedTouches[0].clientX - touchStartX;
