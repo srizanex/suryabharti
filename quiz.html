@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Geeta Mahaprashna - Surya Bharti Mission</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Premium Hindi Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            background-color: #fafaf9; 
+            color: #334155;
+            /* Prevent pull-to-refresh on mobile apps */
+            overscroll-behavior-y: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .title-font {
+            font-family: 'Yatra One', cursive;
+        }
+
+        /* Subtle Background Aura */
+        .blob {
+            position: fixed;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: move 10s infinite alternate ease-in-out;
+        }
+        @keyframes move {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-20px) scale(1.05); }
+        }
+
+        /* App View Card */
+        .app-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(249, 115, 22, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .app-card {
+                border-radius: 0;
+                border: none;
+                box-shadow: none;
+                background: transparent;
+            }
+        }
+
+        /* Option Buttons */
+        .option-card {
+            background: #ffffff;
+            border: 2px solid #f1f5f9;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-card:active {
+            transform: scale(0.98);
+        }
+
+        .option-card:hover:not(.disabled) {
+            transform: translateY(-2px);
+            border-color: #f97316;
+            background: #fff7ed;
+            box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.1);
+        }
+
+        .option-card.correct {
+            border-color: #22c55e;
+            background: #f0fdf4;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+        }
+
+        .option-card.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .option-card.selected {
+            border-color: #f97316;
+            background: #fff7ed;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+        }
+
+        .option-card.disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+            transform: none !important;
+        }
+
+        .index-badge {
+            transition: all 0.3s ease;
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .option-card:hover:not(.disabled) .index-badge {
+            background: #f97316;
+            color: #ffffff;
+        }
+
+        .fade-enter {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-orange-200 selection:text-orange-900 relative pb-16 md:pb-0">
+
+    <!-- Spiritual Aura Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-[#fafaf9]">
+        <div class="blob bg-orange-300 w-96 h-96 rounded-full top-[-10%] left-[-10%]"></div>
+        <div class="blob bg-yellow-200 w-96 h-96 rounded-full top-[20%] right-[-10%]" style="animation-delay: -5s;"></div>
+        <div class="blob bg-rose-200 w-80 h-80 rounded-full bottom-[-10%] left-[20%]" style="animation-delay: -2s;"></div>
+        <!-- Subtle Mandala/Om Watermark -->
+        <div class="absolute inset-0 opacity-[0.03] bg-[url('https://upload.wikimedia.org/wikipedia/commons/4/43/Om_symbol.svg')] bg-no-repeat bg-center fixed" style="background-size: 50%; background-attachment: fixed;"></div>
+    </div>
+
+    <!-- Top App Bar (Header) -->
+    <header class="w-full bg-white/90 backdrop-blur-lg border-b border-orange-100 sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                
+                <!-- Brand / Logo Link -->
+                <a href="https://suryabharti.in/" class="flex items-center gap-3 cursor-pointer group">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-tr from-orange-500 to-yellow-400 flex items-center justify-center text-white shadow-md group-hover:rotate-45 transition-transform duration-500">
+                        <i class="fas fa-sun text-xl md:text-2xl"></i>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="title-font text-xl md:text-2xl tracking-wider text-gray-800 leading-none mt-1">
+                            SURYA <span class="text-orange-500">BHARTI</span>
+                        </span>
+                        <span class="text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.25em] text-gray-500 uppercase mt-0.5">Mission</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation (Hidden on Mobile) -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="https://suryabharti.in/" class="text-gray-600 hover:text-orange-500 font-semibold text-[1.05rem] transition-colors relative group py-2">
+                        <i class="fas fa-home mr-1"></i> Home
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="https://suryabharti.in/#books-trigger" class="text-gray-600 hover:text-orange-500 font-semibold text-[1.05rem] transition-colors relative group py-2">
+                        <i class="fas fa-book mr-1"></i> Books
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="https://suryabharti.in/#about" class="text-gray-600 hover:text-orange-500 font-semibold text-[1.05rem] transition-colors relative group py-2">
+                        <i class="fas fa-info-circle mr-1"></i> About
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 transition-all group-hover:w-full"></span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper (App View) -->
+    <main class="flex-grow flex items-start md:items-center justify-center w-full relative z-10 pt-4 md:pt-8 md:pb-8">
+        <div id="app-container" class="max-w-3xl w-full app-card overflow-hidden fade-enter relative w-full h-full md:h-auto min-h-[calc(100vh-120px)] md:min-h-0 flex flex-col">
+            
+            <!-- Welcome Screen (Name Input) -->
+            <div id="welcome-screen" class="p-6 md:p-16 text-center relative bg-white/80 backdrop-blur-md flex-grow flex flex-col justify-center">
+                <div class="text-6xl md:text-7xl text-orange-400 mb-4 md:mb-6 drop-shadow-md">
+                    <i class="fas fa-om"></i>
+                </div>
+                <h1 class="title-font text-3xl md:text-5xl font-normal bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-yellow-500 tracking-wide mb-2 md:mb-3">
+                    गीता महाप्रश्न
+                </h1>
+                <p class="text-base md:text-lg text-gray-500 mb-8 md:mb-10 font-medium">परम सत्य की खोज में आपका स्वागत है।</p>
+                
+                <div class="max-w-sm mx-auto mb-8 text-left w-full">
+                    <label for="user-name" class="block text-gray-700 font-bold mb-2 ml-1 text-sm md:text-base">अपना नाम दर्ज करें:</label>
+                    <input type="text" id="user-name" placeholder="आपका शुभ नाम..." class="w-full px-5 py-4 rounded-xl border-2 border-orange-100 bg-white focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-50 transition-all text-gray-800 text-lg shadow-sm" required>
+                    <p id="name-error" class="text-red-500 text-sm mt-2 ml-1 hidden">कृपया आगे बढ़ने से पहले अपना नाम दर्ज करें।</p>
+                </div>
+
+                <button id="start-btn" class="group relative inline-flex items-center justify-center px-8 md:px-10 py-4 text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-orange-400 rounded-xl overflow-hidden transition-all hover:shadow-lg hover:shadow-orange-200 active:scale-95 focus:outline-none w-full md:w-auto mx-auto shadow-md">
+                    <span class="mr-2">यात्रा आरंभ करें</span>
+                    <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </button>
+            </div>
+
+            <!-- Quiz Header (Progress) -->
+            <div id="quiz-header" class="hidden p-4 md:p-6 border-b border-gray-100 relative bg-white/95 backdrop-blur-sm sticky top-0 z-20 shadow-sm">
+                <div id="progress-container" class="flex justify-between items-center text-sm md:text-base font-bold text-gray-600 mb-3">
+                    <span id="question-tracker" class="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full"><i class="fas fa-layer-group text-orange-400"></i> प्रश्न 1 / 10</span>
+                    <span id="score-tracker" class="flex items-center gap-2 bg-orange-50 px-3 py-1 rounded-full text-orange-700">परीक्षण जारी... <i class="fas fa-eye text-orange-400"></i></span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden shadow-inner">
+                    <div id="progress-bar" class="bg-gradient-to-r from-orange-400 to-yellow-400 h-full rounded-full transition-all duration-500 ease-out" style="width: 10%"></div>
+                </div>
+            </div>
+
+            <!-- Quiz Area -->
+            <div id="quiz-area" class="hidden p-4 md:p-8 bg-white/80 backdrop-blur-md flex-grow flex flex-col">
+                <div class="mb-6 md:mb-8">
+                    <h2 id="question-text" class="text-[1.15rem] md:text-[1.4rem] font-semibold text-gray-800 leading-snug md:leading-[1.6] drop-shadow-sm">
+                        <!-- Question will load here -->
+                    </h2>
+                </div>
+
+                <div id="options-container" class="space-y-3 md:space-y-4 mb-6">
+                    <!-- Options will load here -->
+                </div>
+
+                <!-- Action Area (Next Button) -->
+                <div class="mt-auto flex justify-end pt-4 pb-4">
+                    <button id="next-btn" class="hidden w-full md:w-auto group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-white bg-gradient-to-r from-orange-500 to-orange-400 rounded-xl overflow-hidden transition-all shadow-md active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2">
+                        <span id="next-btn-text" class="mr-2">अगला पड़ाव</span>
+                        <i id="next-btn-icon" class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading Overlay (For Saving Data) -->
+            <div id="loading-screen" class="hidden p-8 text-center bg-white/95 backdrop-blur-md absolute inset-0 z-50 flex flex-col items-center justify-center">
+                <i class="fas fa-dharmachakra text-5xl text-orange-500 animate-[spin_3s_linear_infinite] mb-6 drop-shadow-md"></i>
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">आपका ज्ञान संचित हो रहा है...</h3>
+                <p class="text-gray-500 text-sm">कृपया प्रतीक्षा करें।</p>
+            </div>
+
+            <!-- Results Area -->
+            <div id="results-area" class="p-4 md:p-10 text-center hidden fade-enter relative bg-white/80 backdrop-blur-md flex-grow">
+                
+                <div class="text-6xl text-orange-400 mb-4 drop-shadow-md mt-4">
+                    <i class="fas fa-om"></i>
+                </div>
+                <h2 class="title-font text-3xl md:text-4xl font-normal text-gray-800 mb-2 tracking-wide">यात्रा पूर्ण हुई</h2>
+                <p class="text-sm md:text-base text-gray-500 mb-8 font-medium px-4">आपने आध्यात्मिक गहराइयों का कितनी सूक्ष्मता से अनुभव किया?</p>
+                
+                <!-- Detailed Scorecard -->
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 mb-8 w-full max-w-lg mx-auto">
+                    <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-5 border border-orange-100 shadow-sm relative overflow-hidden w-full sm:w-auto">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-300 via-yellow-400 to-orange-300"></div>
+                        <p class="text-xs md:text-sm text-orange-600 uppercase tracking-[0.1em] font-bold mb-1">अंतिम स्कोर</p>
+                        <div class="flex items-baseline justify-center gap-2">
+                            <span id="final-score" class="text-4xl md:text-5xl font-black text-gray-800 drop-shadow-sm">0</span>
+                            <span class="text-xl text-gray-400 font-medium">/ 10</span>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 w-full sm:w-auto justify-center">
+                        <div class="bg-green-50 rounded-2xl p-4 border border-green-100 flex-1 min-w-[100px] shadow-sm">
+                            <p class="text-xs text-green-600 font-bold uppercase mb-1">सही</p>
+                            <p id="correct-count" class="text-2xl md:text-3xl font-black text-green-600">0</p>
+                        </div>
+                        <div class="bg-red-50 rounded-2xl p-4 border border-red-100 flex-1 min-w-[100px] shadow-sm">
+                            <p class="text-xs text-red-600 font-bold uppercase mb-1">गलत</p>
+                            <p id="incorrect-count" class="text-2xl md:text-3xl font-black text-red-600">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="result-message" class="text-gray-700 mb-8 max-w-2xl mx-auto text-sm md:text-[1.05rem] leading-relaxed font-medium px-4 bg-orange-50/50 p-4 rounded-xl border border-orange-100"></p>
+
+                <button id="restart-btn" class="group relative inline-flex items-center justify-center px-8 py-3.5 text-base md:text-lg font-bold text-white bg-gray-900 rounded-xl transition-all shadow-md active:scale-95 focus:outline-none w-full md:w-auto max-w-xs mx-auto mb-8">
+                    <i class="fas fa-redo mr-2 transition-transform group-hover:-rotate-90"></i>
+                    <span class="tracking-wide">पुनः अन्वेषण करें</span>
+                </button>
+
+                <!-- Answers Review Section -->
+                <div id="review-container" class="mt-4 text-left space-y-6 border-t border-gray-200 pt-8 w-full">
+                    <!-- Review items will load here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation (App View) -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] z-50 pb-safe">
+        <div class="flex justify-around items-center h-16">
+            <a href="https://suryabharti.in/" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-orange-500 transition-colors">
+                <i class="fas fa-home text-xl mb-1"></i>
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Home</span>
+            </a>
+            <a href="https://suryabharti.in/#books-trigger" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-orange-500 transition-colors">
+                <i class="fas fa-book text-xl mb-1"></i>
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Books</span>
+            </a>
+            <a href="https://suryabharti.in/#about" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-orange-500 transition-colors">
+                <i class="fas fa-info-circle text-xl mb-1"></i>
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider">About</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- App Logic Script -->
+    <script>
+        // GOOGLE SHEET WEB APP URL
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylptGwIK0ov7lJZyAJzRtYy4qJkusydQWrxad3S42j-_R4CcXd31mlYqMgKhABNuZ2/exec";
+
+        // Quiz Data
+        const quizData = [
+            {
+                question: "भगवद् गीता (9.4) में भगवान कहते हैं कि वे अपने अव्यक्त रूप से पूरे जगत में व्याप्त हैं। पुराणों की 'दामोदर लीला' में जब माता कृष्ण को रस्सी से बांधने का प्रयास करती हैं, तो रस्सी हमेशा ठीक 2 ऊंगली छोटी पड़ जाती है। आध्यात्मिक दृष्टिकोण से इस '2 ऊंगली' के अंतर का सबसे सटीक अर्थ क्या है?",
+                options: [
+                    { text: "यह दर्शाता है कि भौतिक प्रयास से ईश्वर को नहीं पाया जा सकता, केवल ध्यान ही एकमात्र मार्ग है।", rationale: "ध्यान भी एक प्रयास है। यहाँ बात प्रयास की विफलता की नहीं, बल्कि उसकी अपूर्णता की है।", isCorrect: false },
+                    { text: "यह अनंत को सीमित करने की जीव की व्यर्थ कोशिश है, जहाँ अज्ञान के रहते ईश्वर हमेशा पकड़ से बाहर रहते हैं।", rationale: "यह आंशिक रूप से सत्य है, लेकिन 'ठीक 2 ऊंगली' के विशिष्ट अंतर को स्पष्ट नहीं करता।", isCorrect: false },
+                    { text: "दो अंगुलियों का अंतर 'जीव का पुरुषार्थ' और 'ईश्वर की कृपा' है; अहंकार के पिघलने पर ही अनंत स्वयं को बंधने देता है।", rationale: "यही सबसे सटीक उत्तर है। जीव अपना पूरा प्रयास (रस्सी) लगाता है, लेकिन अंतिम 2 ऊंगलियों की कमी तभी पूरी होती है जब कर्ताभाव (अहंकार) मिटता है और अनुग्रह (कृपा) मिलती है।", isCorrect: true },
+                    { text: "यह सिद्ध करता है कि भगवान माया के पार हैं और किसी भी सांसारिक वस्तु या भावना से उन्हें नहीं बांधा जा सकता।", rationale: "अंत में भगवान उसी रस्सी से बंधते हैं, इसलिए यह कहना कि वे 'नहीं बंध सकते' इस लीला के अंतिम सत्य को नकारना है।", isCorrect: false }
+                ]
+            },
+            {
+                question: "गीता (18.66) में 'सर्वधर्मान्परित्यज्य' (सब धर्मों को छोड़कर मेरी शरण में आओ) का आह्वान है। रास-लीला में गोपियों ने अपने 'कुल-धर्म' (सामाजिक मर्यादा) का पूरी तरह त्याग कर दिया। दर्शनशास्त्र के अनुसार इस कृत्य का सबसे गहरा अर्थ क्या है?",
+                options: [
+                    { text: "गोपियों ने यह सिद्ध किया कि ईश्वरीय आकर्षण के सामने सामाजिक नियम और मर्यादाएं कोई मायने नहीं रखतीं।", rationale: "यह एक सामान्य भावुक व्याख्या है, सबसे गहरा दार्शनिक निष्कर्ष नहीं।", isCorrect: false },
+                    { text: "यह दर्शाता है कि भगवान के बुलावे (वंशी) के सामने मानव की स्वतंत्र इच्छा (Free will) और कर्म दोनों समाप्त हो जाते हैं।", rationale: "भगवान ज़बरदस्ती नहीं करते; गोपियों ने सचेत रूप से चुनाव किया था।", isCorrect: false },
+                    { text: "उन्होंने यह दिखाया कि परम-सत्य को पाने के लिए संन्यास और सांसारिक कर्तव्यों को छोड़ना ही एकमात्र उपाय है।", rationale: "गीता कर्तव्यों को छोड़ने की नहीं, बल्कि उनमें आसक्ति छोड़ने की बात करती है।", isCorrect: false },
+                    { text: "यह देह-अभिमान और संसार के सबसे गहरे भेदों का पूर्ण त्याग था, ताकि केवल 'एक' (परमात्मा) ही शेष रहे।", rationale: "सबसे सटीक। सारे धर्म (नियम/कर्तव्य) देह और रिश्तों (मैं और मेरा) से जुड़े हैं। इनका त्याग उस सर्वोच्च अवस्था का प्रतीक है जहाँ दृष्टा और दृश्य के बीच कोई भेद नहीं बचता।", isCorrect: true }
+                ]
+            },
+            {
+                question: "गीता (8.5) कहती है कि अंत समय में जो स्मरण करता है, वह उसी को प्राप्त होता है। शिशुपाल जीवन भर भगवान से घोर द्वेष (नफरत) करता रहा, फिर भी अंत में उसकी ज्योति भगवान में लीन हो गई। दर्शन इसे कैसे समझाता है?",
+                options: [
+                    { text: "भगवान समदर्शी हैं, उनके लिए मित्र और शत्रु दोनों समान हैं, इसलिए उन्होंने अपने स्वभाववश शिशुपाल का उद्धार किया।", rationale: "भगवान समदर्शी हैं, लेकिन शिशुपाल की मुक्ति का दार्शनिक कारण उसकी अपनी चेतना की अवस्था थी।", isCorrect: false },
+                    { text: "शिशुपाल का ध्यान अपनी चरम एकाग्रता में था; जब मन पूरी तरह एक ही लक्ष्य में डूब जाए, तो भाव चाहे जो भी हो, विलय निश्चित है।", rationale: "सटीक उत्तर। चेतना का विज्ञान कहता है कि मन जिस पर पूर्ण रूप से एकाग्र (Focused) हो जाता है, वह उसी का रूप ले लेता है। क्रोध या द्वेष ने उसे निरंतर एकाग्र रखा।", isCorrect: true },
+                    { text: "यह पूर्व जन्म के शाप से मुक्ति की नियति थी, इसमें शिशुपाल की वर्तमान भावना या कर्मों का कोई आध्यात्मिक योगदान नहीं था।", rationale: "पौराणिक कथा के अनुसार यह सच है, लेकिन आध्यात्मिक दर्शन हमेशा वर्तमान चेतना पर बल देता है।", isCorrect: false },
+                    { text: "भगवान के हाथों हुई मृत्यु हमेशा मोक्षदायिनी होती है, चाहे जीव की मनःस्थिति कैसी भी हो।", rationale: "ऐसा होता तो महाभारत के युद्ध में मारे गए हर सैनिक को सायुज्य मुक्ति (परमात्मा में विलय) मिलती, जो कि नहीं हुआ।", isCorrect: false }
+                ]
+            },
+            {
+                question: "गीता में आत्मा के शरीर बदलने की बात है। महाभारत में भीष्म पितामह तीरों की शय्या पर मृत्यु के लिए 'उत्तरायण' की प्रतीक्षा करते हैं और भगवान को सामने देखकर प्राण त्यागते हैं। इस 'इच्छा-मृत्यु' का सबसे सूक्ष्म अर्थ क्या है?",
+                options: [
+                    { text: "यह दर्शाता है कि ज्ञानी व्यक्ति मृत्यु से भयभीत नहीं होता, बल्कि उसे एक स्वाभाविक प्राकृतिक प्रक्रिया मानकर स्वीकार करता है।", rationale: "यह सामान्य ज्ञान है। भीष्म का कृत्य केवल 'स्वीकार' करने से कहीं अधिक गहरा था।", isCorrect: false },
+                    { text: "उत्तरायण का सूर्य आध्यात्मिक जागरण का प्रतीक है, और वे प्रकाश के मार्ग (देवयान) से ही स्वर्ग या उच्च लोकों में जाना चाहते थे।", rationale: "भीष्म जैसे आत्मज्ञानी का लक्ष्य केवल स्वर्ग या उच्च लोक प्राप्त करना नहीं होता।", isCorrect: false },
+                    { text: "यह देह-त्याग को एक सचेत 'यज्ञ' बनाने की क्रिया थी, जहाँ अपनी संपूर्ण चेतना को स्वेच्छा से ब्रह्मांडीय ऊर्जा में विलीन किया जाता है।", rationale: "सबसे सटीक। ज्ञानी के लिए मृत्यु कोई घटना नहीं जो 'घटती' है, बल्कि एक सचेत क्रिया है जहाँ वह स्वयं अपने प्राणों को परम-तत्त्व में आहुति दे देता है।", isCorrect: true },
+                    { text: "उन्होंने यह सिद्ध किया कि प्रचंड योगबल और तपस्या से मनुष्य मृत्यु को हरा सकता है और अपनी आयु स्वयं तय कर सकता है।", rationale: "योगबल से आयु बढ़ाना एक सिद्धि है, लेकिन यहाँ मुख्य उद्देश्य परम-तत्त्व में विलीन होना था, सिद्धि दिखाना नहीं।", isCorrect: false }
+                ]
+            },
+            {
+                question: "गीता ज्ञान को गुरु से प्राप्त करने पर बल देती है। उद्धव (जो बृहस्पति के शिष्य और महान ज्ञानी थे) को स्वयं भगवान ने कुछ 'सीखने' के लिए वृंदावन भेजा। इस घटना का दार्शनिक उद्देश्य क्या था?",
+                options: [
+                    { text: "भगवान यह जताना चाहते थे कि शास्त्रों का तार्किक ज्ञान अधूरा है, और असली बोध संसार के व्यावहारिक अनुभवों से ही मिलता है।", rationale: "वृंदावन का अनुभव केवल 'व्यावहारिक अनुभव' नहीं था, वह एक भिन्न चेतनावस्था थी।", isCorrect: false },
+                    { text: "वे उद्धव को सिखाना चाहते थे कि परम-सत्य को केवल बुद्धिमत्ता से नहीं, बल्कि साधारण, निश्छल भावनाओं से भी पाया जा सकता है।", rationale: "यह एक अच्छी व्याख्या है, लेकिन सत्य की सबसे गहरी परत नहीं है।", isCorrect: false },
+                    { text: "यह यह साबित करने के लिए था कि ज्ञान और कर्म दोनों भगवान तक पहुँचने के अलग-अलग लेकिन बिल्कुल समान मार्ग हैं।", rationale: "उद्धव ज्ञान मार्ग पर पहले से थे, उन्हें वहां भेजने का एक विशिष्ट मनोवैज्ञानिक/आध्यात्मिक कारण था।", isCorrect: false },
+                    { text: "उद्धव के 'निराकार ज्ञान' में स्वयं के ज्ञानी होने का सूक्ष्म अहंकार था; भगवान उन्हें वह अवस्था दिखाना चाहते थे जहाँ 'मैं' पूरी तरह शून्य हो जाता है।", rationale: "सटीक उत्तर। बौद्धिक ज्ञान में 'ज्ञाता' (जानने वाला) हमेशा बचा रहता है। वृंदावन की अवस्था वह थी जहाँ जानने वाला मिट गया था, केवल सत्य शेष था।", isCorrect: true }
+                ]
+            },
+            {
+                question: "गीता (9.22) में भगवान अपने आश्रितों का योग-क्षेम (सुरक्षा) उठाने का वचन देते हैं। चीरहरण के समय ईश्वरीय शक्ति तब तक प्रकट नहीं हुई जब तक द्रौपदी ने संघर्ष छोड़कर अपने दोनों हाथ ऊपर नहीं उठा दिए। इसमें कौन सा सिद्धांत छिपा है?",
+                options: [
+                    { text: "भगवान केवल तभी रक्षा करते हैं जब मनुष्य अपनी पूरी सांसारिक ताकत लगा लेने के बाद हार मान लेता है और टूट जाता है।", rationale: "भगवान टूटने का इंतज़ार नहीं करते, वे एक विशिष्ट आंतरिक स्थिति का इंतज़ार करते हैं।", isCorrect: false },
+                    { text: "जब तक 'मैं स्वयं कर्ता हूँ' या 'मेरे अपने मुझे बचाएंगे' का सूक्ष्म भाव रहता है, तब तक परम-सत्ता का पूर्ण प्राकट्य नहीं होता।", rationale: "सटीक उत्तर। जब तक कर्ताभाव (Ego) या सांसारिक आश्रय का लेश मात्र भी शेष है, तब तक पूर्ण समर्पण घटित नहीं होता। समर्पण शून्य होने की अवस्था है।", isCorrect: true },
+                    { text: "यह कर्मफल का सिद्धांत था; द्रौपदी को अपने कुछ पिछले जन्मों के कर्मों का फल भुगतना था, जिसके समाप्त होने के बाद ही रक्षा संभव थी।", rationale: "कर्मफल का सिद्धांत अटल है, लेकिन यहाँ मुख्य विषय रक्षा के प्रकट होने और चेतना के रूपांतरण का है।", isCorrect: false },
+                    { text: "ईश्वर द्रौपदी के विश्वास की अंतिम परीक्षा ले रहे थे कि विपत्ति की चरम सीमा पर भी उसका ध्यान सत्य से भटकता है या नहीं।", rationale: "इसे परीक्षा कहना ईश्वर को एक क्रूर परीक्षक बना देता है, जबकि यह जीव के आंतरिक विकास की स्वाभाविक प्रक्रिया थी।", isCorrect: false }
+                ]
+            },
+            {
+                question: "गीता कहती है 'मैं सबके हृदय में स्थित हूँ'। गजेन्द्र मोक्ष में जब हाथी मृत्यु के मुख में था, तो उसने किसी विशेष रूप या देवता का नाम नहीं लिया, बल्कि 'आदिमूलम्' (सबके मूल कारण) को पुकारा। यह प्रार्थना सबसे शक्तिशाली क्यों थी?",
+                options: [
+                    { text: "गजेन्द्र ने विपत्ति में सभी देवताओं की अलग-अलग स्तुति करने के बजाय सीधे सर्वोच्च सत्ता से प्रार्थना की, जो सबसे अधिक शक्तिशाली है।", rationale: "यह एक धार्मिक दृष्टिकोण है, दार्शनिक नहीं।", isCorrect: false },
+                    { text: "यह दर्शाता है कि जानवरों में भी पिछले जन्म की आध्यात्मिक स्मृति शेष रहती है जो प्राणों के संकट में स्वतः जागृत हो जाती है।", rationale: "यह सत्य है कि उसे पूर्व जन्म की स्मृति थी, लेकिन यह प्रार्थना के 'सबसे शक्तिशाली' होने का कारण नहीं है।", isCorrect: false },
+                    { text: "गजेन्द्र की प्रार्थना में किसी सांसारिक जीवन की कामना नहीं थी, उसने प्राण बचाने के बजाय केवल सत्य के दर्शन की इच्छा रखी थी।", rationale: "यह प्रार्थना का एक गुण था, लेकिन उसका सबसे मूल दार्शनिक आधार कुछ और था।", isCorrect: false },
+                    { text: "उसने किसी सीमित नाम-रूप या धारणा को नहीं, बल्कि उस अद्वैत तत्त्व को पुकारा जो सभी रूपों, नामों और चेतना का अंतिम आधार है।", rationale: "सबसे सटीक। जब प्रार्थना किसी सीमित धारणा (विशेष रूप) से मुक्त होकर सीधे 'कारण-तत्त्व' (Source) से जुड़ती है, तो वह पूरे ब्रह्मांड को गुंजायमान कर देती है।", isCorrect: true }
+                ]
+            },
+            {
+                question: "गीता के 11वें अध्याय में अर्जुन भगवान का विश्वरूप देखकर भयभीत हो जाता है। वहीं पुराणों में माता यशोदा कृष्ण के मुख में पूरा ब्रह्मांड देखकर क्षण भर के लिए विस्मित होती हैं, और फिर उन्हें अपना पुत्र मानकर गले लगा लेती हैं। इन दोनों प्रतिक्रियाओं का मुख्य निष्कर्ष क्या है?",
+                options: [
+                    { text: "अर्जुन का ज्ञान तार्किक था इसलिए वह डरा, जबकि यशोदा का ज्ञान स्वाभाविक था इसलिए वे शांत रहीं।", rationale: "अर्जुन को भगवान ने स्वयं दिव्य दृष्टि दी थी, वह केवल तार्किक ज्ञान नहीं था।", isCorrect: false },
+                    { text: "ऐश्वर्य (शक्ति/विस्तार) का दर्शन जीव और ब्रह्म के बीच अपार दूरी बनाता है, जबकि विशुद्ध आत्मीयता उस दूरी को पूरी तरह मिटा देती है।", rationale: "सटीक उत्तर। विराट रूप का दर्शन मन को डराता है और द्वैत (मैं छोटा, वह बड़ा) पैदा करता है। पूर्ण आत्मीयता हर प्रकार के भेद और ऐश्वर्य को शून्य कर देती है।", isCorrect: true },
+                    { text: "यह भगवान की माया का प्रभाव है; वे जिसे चाहें उसे ज्ञान में रखते हैं (अर्जुन) और जिसे चाहें उसे सांसारिक अज्ञान में रखते हैं (यशोदा)।", rationale: "यशोदा की प्रतिक्रिया अज्ञान नहीं, बल्कि ज्ञान की चरम सीमा थी जहाँ चमत्कार भी आत्मीयता के सामने फीके पड़ जाते हैं।", isCorrect: false },
+                    { text: "दर्शन दोनों का समान था, लेकिन यशोदा एक माँ होने के नाते अपने स्वाभाविक सांसारिक मोह के कारण उस पारलौकिक सत्य को स्वीकार नहीं कर पाईं।", rationale: "यशोदा ने उसे अस्वीकार नहीं किया, बल्कि उसे अपने वात्सल्य (प्रेम) में समाहित कर लिया।", isCorrect: false }
+                ]
+            },
+            {
+                question: "गीता (6.30) कहती है 'जो सबमें मुझे देखता है, वह कभी मुझसे अलग नहीं'। अक्रूर जब भगवान को मथुरा ले जा रहे थे, तो उन्हें यमुना के जल में भी भगवान दिखे, और रथ पर भी वही दिखे। इस अनुभव का सबसे गहरा अर्थ क्या है?",
+                options: [
+                    { text: "यह भगवान की एक विशेष सिद्धि (चमत्कार) थी जिससे उन्होंने अक्रूर के मन के संशयों को मिटाकर अपने सर्वव्यापी होने का प्रमाण दिया।", rationale: "यह घटना को केवल एक चमत्कार के रूप में सीमित कर देता है।", isCorrect: false },
+                    { text: "जल चेतना का प्रतीक है, और यह घटना दिखाती है कि मन के शांत जल में ही परमात्मा का असली स्वरूप प्रतिबिंबित होता है।", rationale: "यह एक सुंदर काव्यात्मक व्याख्या है, लेकिन इसका दार्शनिक आधार अधिक व्यापक है।", isCorrect: false },
+                    { text: "अक्रूर का ध्यान इतना गहरा था कि उनके अपने भीतर स्थित चैतन्य ही उन्हें बाहर दृश्य संसार में प्रतिबिंबित होने लगा।", rationale: "यह बहुत करीब है, लेकिन यह बोध से अधिक मनोविज्ञान की ओर झुकता है।", isCorrect: false },
+                    { text: "यह स्पष्ट बोध है कि दृष्टा (देखने वाला), दृश्य (जो देखा जा रहा है) और दृष्टि—तीनों में एक ही अभेद तत्त्व विद्यमान है, स्थान केवल एक भ्रम है।", rationale: "सबसे सटीक। जब अंदर और बाहर, यहाँ और वहाँ का भेद मिट जाता है, तब अनुभव होता है कि देखने वाला और जो देखा जा रहा है, वह एक ही पूर्णता (परमात्मा) है।", isCorrect: true }
+                ]
+            },
+            {
+                question: "गीता में भगवान कहते हैं 'मेरे जन्म और कर्म दिव्य हैं'। कथाओं में ईश्वरीय चेतना (कृष्ण) का जन्म अंधकारमय कारागार (जेल) में होता है, लेकिन वासुदेव उन्हें वहां से मुक्त वातावरण (गोकुल) में ले जाते हैं। दर्शन में इस घटना का क्या प्रतीक है?",
+                options: [
+                    { text: "यह दर्शाता है कि परम सत्य किसी भी स्थान पर अवतरित हो सकता है, चाहे वह स्थान कितना भी अपवित्र, कष्टकारी या अंधकारमय क्यों न हो।", rationale: "यह एक प्रेरणादायक विचार है, लेकिन दार्शनिक प्रतीकवाद इससे अधिक सूक्ष्म है।", isCorrect: false },
+                    { text: "कारागार 'शारीरिक अहंकार' का प्रतीक है; जब हृदय में चेतना जागती है, तो अहंकार की बेड़ियाँ टूट जाती हैं और आत्मा अनंत विस्तार (गोकुल) में पहुँचती है।", rationale: "सटीक उत्तर। शरीर और अज्ञान ही सबसे बड़ी जेल है। जब आंतरिक चेतना (कृष्ण) का जन्म होता है, तो सारे भ्रम के ताले खुद खुल जाते हैं और जीव मुक्ति का अनुभव करता है।", isCorrect: true },
+                    { text: "अहंकार (कंस) हमेशा सत्य को कैद करना चाहता है, लेकिन सत्य हमेशा अपनी राह खोज लेता है और अहंकार का अंत कर देता है।", rationale: "यह भी एक अच्छा प्रतीक है, लेकिन 'जेल से गोकुल जाने' की यात्रा जीव की आंतरिक मुक्ति (अहंकार से पार जाने) को अधिक सटीक रूप से दर्शाती है।", isCorrect: false },
+                    { text: "यह आत्मा की आध्यात्मिक यात्रा जहाँ जीव पूर्ण अंधकार (जेल) से शुरू होकर जन्म-जन्मांतर के बाद प्रकाश की ओर बढ़ता है।", rationale: "यह सामान्य विकास क्रम है, लेकिन इस विशिष्ट कथा का सीधा संबंध ज्ञान के उदय और तत्काल मुक्ति से है।", isCorrect: false }
+                ]
+            }
+        ];
+
+        // State Variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userSelections = [];
+        let userName = "";
+
+        // Safe DOM Element Extraction Helper
+        const getEl = (id) => document.getElementById(id);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Bind Elements safely after DOM load
+            const startBtn = getEl('start-btn');
+            const nextBtn = getEl('next-btn');
+            const restartBtn = getEl('restart-btn');
+
+            // Attach listeners safely
+            if(startBtn) startBtn.addEventListener('click', startQuiz);
+            if(nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < quizData.length) {
+                        loadQuestion();
+                    } else {
+                        submitDataAndShowResults();
+                    }
+                });
+            }
+            if(restartBtn) restartBtn.addEventListener('click', resetApp);
+            
+            // Un-hide welcome screen on load
+            const appContainer = getEl('app-container');
+            const welcomeScreen = getEl('welcome-screen');
+            if(appContainer) appContainer.classList.remove('hidden');
+            if(welcomeScreen) welcomeScreen.classList.remove('hidden');
+        });
+
+        // Functions
+        function startQuiz() {
+            const userNameInput = getEl('user-name');
+            const nameError = getEl('name-error');
+            
+            if(!userNameInput) return;
+
+            const nameVal = userNameInput.value.trim();
+            if(nameVal === "") {
+                if(nameError) nameError.classList.remove('hidden');
+                userNameInput.classList.add('border-red-400');
+                return;
+            }
+
+            if(nameError) nameError.classList.add('hidden');
+            userNameInput.classList.remove('border-red-400');
+            userName = nameVal;
+
+            const welcomeScreen = getEl('welcome-screen');
+            const quizHeader = getEl('quiz-header');
+            
+            if(welcomeScreen) welcomeScreen.classList.add('hidden');
+            if(quizHeader) quizHeader.classList.remove('hidden');
+            
+            initQuiz();
+        }
+
+        function initQuiz() {
+            const quizArea = getEl('quiz-area');
+            const resultsArea = getEl('results-area');
+            const welcomeScreen = getEl('welcome-screen');
+            const quizHeader = getEl('quiz-header');
+
+            if(!quizArea || !resultsArea) {
+                console.error("DOM components missing in initQuiz!");
+                return;
+            }
+
+            currentQuestionIndex = 0;
+            score = 0;
+            userSelections = [];
+            
+            if(userName === "") {
+                if(welcomeScreen) welcomeScreen.classList.remove('hidden');
+                if(quizHeader) quizHeader.classList.add('hidden');
+                quizArea.classList.add('hidden');
+                resultsArea.classList.add('hidden');
+                return;
+            }
+
+            quizArea.classList.remove('hidden');
+            resultsArea.classList.add('hidden');
+            
+            updateTopBar();
+            loadQuestion();
+        }
+
+        function resetApp() {
+            const resultsArea = getEl('results-area');
+            const quizHeader = getEl('quiz-header');
+            const quizArea = getEl('quiz-area');
+
+            currentQuestionIndex = 0;
+            score = 0;
+            userSelections = [];
+            
+            if(resultsArea) resultsArea.classList.add('hidden');
+            if(quizHeader) quizHeader.classList.remove('hidden');
+            if(quizArea) quizArea.classList.remove('hidden');
+            
+            updateTopBar();
+            loadQuestion();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateTopBar() {
+            const questionTracker = getEl('question-tracker');
+            const scoreTracker = getEl('score-tracker');
+            const progressBar = getEl('progress-bar');
+
+            if(questionTracker) questionTracker.innerHTML = `<i class="fas fa-layer-group text-orange-400"></i> प्रश्न ${currentQuestionIndex + 1} / ${quizData.length}`;
+            if(scoreTracker) scoreTracker.innerHTML = `परीक्षण जारी... <i class="fas fa-eye text-orange-400"></i>`;
+            
+            if(progressBar) {
+                const progressPercentage = ((currentQuestionIndex) / quizData.length) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+            }
+        }
+
+        function loadQuestion() {
+            const optionsContainer = getEl('options-container');
+            const nextBtn = getEl('next-btn');
+            const questionText = getEl('question-text');
+            const nextBtnText = getEl('next-btn-text');
+            const nextBtnIcon = getEl('next-btn-icon');
+
+            if(!optionsContainer || !nextBtn || !questionText) return;
+
+            const currentQuestion = quizData[currentQuestionIndex];
+            
+            nextBtn.classList.add('hidden');
+            optionsContainer.innerHTML = '';
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                if(nextBtnText) nextBtnText.textContent = "सबमिट करें";
+                if(nextBtnIcon) nextBtnIcon.className = "fas fa-check transition-transform group-hover:scale-110";
+            } else {
+                if(nextBtnText) nextBtnText.textContent = "अगला पड़ाव";
+                if(nextBtnIcon) nextBtnIcon.className = "fas fa-arrow-right transition-transform group-hover:translate-x-1";
+            }
+            
+            questionText.textContent = currentQuestion.question;
+
+            currentQuestion.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card w-full text-left p-4 md:p-5 rounded-2xl focus:outline-none flex items-start gap-3 md:gap-4 text-gray-700 group relative overflow-hidden transition-all text-sm md:text-[1.1rem] leading-relaxed';
+                
+                const isSelected = userSelections[currentQuestionIndex] && userSelections[currentQuestionIndex].index === index;
+                if (isSelected) {
+                    btn.classList.add('selected');
+                    nextBtn.classList.remove('hidden');
+                }
+
+                const indexSpan = document.createElement('span');
+                indexSpan.className = `index-badge flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold shadow-sm z-10 text-[0.95rem] md:text-[1.1rem] mt-0.5 md:mt-0 ${isSelected ? 'bg-orange-500 text-white' : ''}`;
+                indexSpan.textContent = String.fromCharCode(2325 + index); // क, ख, ग, घ
+                
+                const textSpan = document.createElement('span');
+                textSpan.className = 'z-10 font-medium';
+                textSpan.textContent = option.text;
+
+                btn.appendChild(indexSpan);
+                btn.appendChild(textSpan);
+
+                btn.onclick = () => selectOption(btn, option, index, indexSpan);
+                optionsContainer.appendChild(btn);
+            });
+
+            updateTopBar();
+        }
+
+        function selectOption(selectedBtn, option, index, indexSpan) {
+            const optionsContainer = getEl('options-container');
+            const nextBtn = getEl('next-btn');
+            
+            if(!optionsContainer) return;
+            
+            const allBtns = optionsContainer.querySelectorAll('.option-card');
+            const allSpans = optionsContainer.querySelectorAll('.index-badge');
+            
+            allBtns.forEach((btn, i) => {
+                btn.classList.remove('selected');
+                allSpans[i].classList.remove('bg-orange-500', 'text-white');
+            });
+
+            selectedBtn.classList.add('selected');
+            indexSpan.classList.add('bg-orange-500', 'text-white');
+
+            userSelections[currentQuestionIndex] = {
+                option: option,
+                index: index
+            };
+
+            if(nextBtn) nextBtn.classList.remove('hidden');
+        }
+
+        async function submitDataAndShowResults() {
+            const loadingScreen = getEl('loading-screen');
+            const quizArea = getEl('quiz-area');
+
+            if(loadingScreen) loadingScreen.classList.remove('hidden');
+            if(quizArea) quizArea.classList.add('hidden');
+
+            const answersData = userSelections.map((choice, index) => {
+                let ansText = "कोई उत्तर नहीं चुना";
+                if (choice && choice.option) {
+                    const optionLetter = String.fromCharCode(2325 + choice.index); // क, ख, ग, घ
+                    ansText = `${optionLetter} - ${choice.option.text}`;
+                }
+                return {
+                    qNo: index + 1,
+                    ans: ansText
+                };
+            });
+
+            const payload = {
+                name: userName,
+                answers: answersData
+            };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    }
+                });
+            } catch(e) {
+                console.error("Error saving data:", e);
+            }
+
+            if(loadingScreen) loadingScreen.classList.add('hidden');
+            showResults();
+        }
+
+        function showResults() {
+            const resultsArea = getEl('results-area');
+            const quizHeader = getEl('quiz-header');
+            
+            if(resultsArea) resultsArea.classList.remove('hidden');
+            if(quizHeader) quizHeader.classList.add('hidden'); 
+            
+            let correctCount = 0;
+            let incorrectCount = 0;
+            
+            quizData.forEach((q, i) => {
+                if (userSelections[i] && userSelections[i].option.isCorrect) {
+                    correctCount++;
+                } else {
+                    incorrectCount++;
+                }
+            });
+            score = correctCount;
+
+            const finalScoreEl = getEl('final-score');
+            const correctCountEl = getEl('correct-count');
+            const incorrectCountEl = getEl('incorrect-count');
+            const resultMessageEl = getEl('result-message');
+
+            if(finalScoreEl) finalScoreEl.textContent = score;
+            if(correctCountEl) correctCountEl.textContent = correctCount;
+            if(incorrectCountEl) incorrectCountEl.textContent = incorrectCount;
+
+            let message = "";
+            if (score === 10) {
+                message = "आपकी चेतना अत्यंत जाग्रत है। आप केवल शब्दों को नहीं पढ़ते, बल्कि उनके भीतर छिपे परम सत्य और दर्शन को स्पष्ट रूप से देख सकते हैं।";
+            } else if (score >= 7) {
+                message = "आपका दार्शनिक बोध बहुत उत्कृष्ट है। आपने सत्य की परतों को अच्छे से समझा है। कुछ प्रश्नों में आप भटके, जो दर्शाता है कि सत्य कई बार भ्रमित करने वाले रूपों में सामने आता है।";
+            } else if (score >= 4) {
+                message = "यह एक कठिन परीक्षण था। आपकी दृष्टि अच्छी है, लेकिन आपने देखा होगा कि हर सही दिखने वाला उत्तर अंतिम सत्य नहीं होता। नीचे दिए गए सार को पढ़कर गहराइयों में उतरने का प्रयास करें।";
+            } else {
+                message = "निराश न हों। ये प्रश्न जानबूझकर ऐसे बनाए गए थे कि सामान्य तार्किक मन भ्रमित हो जाए। सत्य हमेशा सतह पर नहीं, बल्कि बहुत गहराई में छिपा होता है। कृपया नीचे दिए गए उत्तरों और उनके सार का अध्ययन करें।";
+            }
+
+            if(resultMessageEl) resultMessageEl.textContent = message;
+            
+            generateReview();
+        }
+
+        function generateReview() {
+            const reviewContainer = getEl('review-container');
+            if(!reviewContainer) return;
+
+            let reviewHTML = '<h3 class="text-2xl title-font text-gray-800 mb-6 md:mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-yellow-500">विस्तृत उत्तर और सार</h3>';
+            
+            quizData.forEach((item, qIndex) => {
+                const userChoice = userSelections[qIndex];
+                const isUserCorrect = userChoice && userChoice.option.isCorrect;
+                const correctOption = item.options.find(o => o.isCorrect);
+                
+                reviewHTML += `
+                <div class="bg-white p-5 md:p-8 rounded-3xl border ${isUserCorrect ? 'border-green-200 shadow-green-100/50' : 'border-red-200 shadow-red-100/50'} shadow-lg mb-6 md:mb-8 overflow-hidden">
+                    <p class="font-semibold text-gray-800 text-base md:text-[1.25rem] mb-5 md:mb-6 leading-relaxed"><span class="text-orange-500 mr-2">Q${qIndex + 1}.</span>${item.question}</p>
+                    
+                    <div class="space-y-3 mb-5 md:mb-6">
+                `;
+
+                item.options.forEach((opt, optIndex) => {
+                    const isSelected = userChoice && userChoice.index === optIndex;
+                    const isCorrect = opt.isCorrect;
+
+                    let optionClass = "bg-gray-50 border-gray-100 text-gray-500"; 
+                    let iconHTML = "";
+                    let indexBadgeClass = "bg-gray-200 text-gray-400";
+
+                    if (isCorrect) {
+                        optionClass = "bg-green-50 border-green-400 text-green-800 shadow-sm ring-1 ring-green-400";
+                        iconHTML = '<i class="fas fa-check-circle text-green-500 text-lg md:text-xl ml-auto drop-shadow-sm shrink-0"></i>';
+                        indexBadgeClass = "bg-green-500 text-white";
+                    } else if (isSelected && !isCorrect) {
+                        optionClass = "bg-red-50 border-red-300 text-red-800";
+                        iconHTML = '<i class="fas fa-times-circle text-red-500 text-lg md:text-xl ml-auto drop-shadow-sm shrink-0"></i>';
+                        indexBadgeClass = "bg-red-500 text-white";
+                    }
+
+                    const indexLetter = String.fromCharCode(2325 + optIndex); 
+
+                    reviewHTML += `
+                        <div class="w-full text-left p-3 md:p-4 rounded-xl border flex items-center gap-3 md:gap-4 ${optionClass} transition-all">
+                            <span class="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center font-bold text-xs md:text-sm ${indexBadgeClass}">${indexLetter}</span>
+                            <span class="text-sm md:text-[1.05rem] font-medium flex-1">${opt.text}</span>
+                            ${iconHTML}
+                        </div>
+                    `;
+                });
+
+                reviewHTML += `
+                    </div>
+                    
+                    <div class="bg-orange-50/80 p-4 md:p-5 rounded-xl border border-orange-100">
+                        <p class="text-orange-900 text-sm md:text-[1.05rem] leading-relaxed font-medium">
+                            <span class="font-bold opacity-80 mr-1 md:mr-2 tracking-wide uppercase text-xs md:text-sm bg-orange-200/50 px-2 py-0.5 rounded text-orange-800 inline-block mb-1 md:mb-0">सार:</span>
+                            ${correctOption.rationale}
+                        </p>
+                    </div>
+                </div>`;
+            });
+            
+            reviewContainer.innerHTML = reviewHTML;
+        }
+    </script>
+</body>
+</html>
